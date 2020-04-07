@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="lupoxan.autoroom.com.autoroom11.TempsConfigureActivity"
+    android:initialKeyguardLayout="@layout/temps"
+    android:initialLayout="@layout/temps"
+    android:minWidth="120dp"
+    android:minHeight="80dp"
+    android:previewImage="@drawable/logo144"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen|keyguard"/>

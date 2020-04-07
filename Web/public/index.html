@@ -1,0 +1,223 @@
+<html>
+    <head>
+        <title id="titulo">Iniciar sesión</title>
+        <meta charset="utf-8">
+        <link id="estilos" rel="stylesheet" type="text/css" href="styles/estilo.css">
+    </head>
+    <body>
+        <div id="logo"> 
+            <h1 id="h"><i>Iniciar sesión</i></h1>
+            <div id="descarga">
+                <h2 style="color: aqua">Solo disponible para Android: 
+                    <a href="https://firebasestorage.googleapis.com/v0/b/myautoroom.appspot.com/o/autoRoom.apk?alt=media&token=bf75eb4d-5643-42a4-b17d-aad54f5a3785">AutoRoom App V1.8
+                    </a>
+                </h2>
+            </div>
+        </div>
+        <section id="seccion1" class="stark-logout">
+            <!-- <form enctype="application/x-www-form-urlencoded" method="post"> -->
+            <div id="fade-box">
+                <button id="sensors" onclick="sensors()">Temperaturas</button>
+                <button id="iluminacion" onclick="ilum()">Iluminación</button>
+                <button id="leds" onclick="control_leds()">Control Leds</button>
+                <button id="comfort" onclick="comfort()">Comfort</button>
+                <button id="out" onclick="logout()">Cerrar sesión</button>
+            </div>     
+        </section>
+        <section id="seccion" class="stark-login">
+            <!-- <form enctype="application/x-www-form-urlencoded" method="post"> -->
+            <div id="fade-box">
+                <input type="text" name="usr" id="usr" placeholder="Email...">
+                <input type="password" name="pss" id="pss" placeholder="Password...">
+                <button id="in" onclick="login()">Iniciar sesión</button>
+                <button id="registro" onclick="reg()">Registrarse</button>
+            </div>
+            <!--</form>-->
+        <div class="hexagons">
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <span>&#x2B22;</span>
+        <br>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <span>&#x2B22;</span>
+          <br>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span> 
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            <span>&#x2B22;</span>
+            
+            <br>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <span>&#x2B22;</span>
+              <br>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+                <span>&#x2B22;</span>
+              </div>      
+        </section>
+        <div id="circle1">
+            <div id="inner-cirlce1">
+            </div>
+        </div>
+        <div id="ilum">
+            <table>
+                <tr>
+                    <td colspan="3"><label id="titu">Iluminación en solo lectura</label></td>
+                </tr>
+                <tr>
+                    <td><label>Cama: </label></td>
+                    <td>
+                        <label class="switch">
+	                       <input class="switch-input" id="cama" type="checkbox" disabled=true>
+	                       <span class="switch-label" data-off="Off" data-on="On"></span>
+                            <span class="switch-handle"></span>
+	                   </label>
+                    </td>
+                    <td><label id="camaAuto"></label></td>
+                </tr>
+                <tr>
+                    <td><label>General: </label></td>
+                    <td>
+                        <label class="switch">
+	                       <input class="switch-input" id="general" type="checkbox" disabled=true>
+	                       <span class="switch-label" data-off="Off" data-on="On"></span>
+                            <span class="switch-handle"></span>
+	                   </label>
+                    </td>
+                    <td><label id="upAuto"></label></td>
+                </tr>
+                <tr>
+                    <td><label>Mesa: </label></td>
+                    <td>
+                        <label class="switch">
+	                       <input class="switch-input" id="mesa" type="checkbox" disabled=true>
+	                       <span class="switch-label" data-off="Off" data-on="On"></span>
+                            <span class="switch-handle"></span>
+	                   </label>
+                    </td>
+                    <td><label id="mesaAuto"></label></td>
+                </tr>
+            </table>
+        </div>
+        <div id="sensores">
+            <table align="center">
+                <tr>
+                    <td colspan="2"><label id="titu">Sensores en tiempo real</label></td>
+                </tr>
+                <tr>
+                    <td><label>Temperatura exterior: </label></td>
+                    <td><label id="tempExt"></label></td>
+                </tr>
+                <tr>
+                    <td><label>Temperatura interior: </label></td>
+                    <td><label id="tempInt"></label></td>
+                </tr>
+                <tr>
+                    <td><label>Movimiento: </label></td>
+                    <td><label id="mov"></label></td>
+                </tr>
+            </table> 
+        </div>
+        <div id="aire">
+            <table align="center">
+                <tr>
+                    <td colspan="2"><label id="titu">Modo de Comfort</label></td>
+                </tr>
+                <tr>
+                    <td><label>Estado: </label></td>
+                    <td><label id="status" style="color: coral"></label></td>
+                </tr>
+                <tr>
+                    <td><label>Consigna: </label></td>
+                    <td><label id="consigna" style="color: green"></label></td>
+                </tr>
+            </table> 
+        </div>
+        <div id="Cleds">
+            <table align="center">
+                <tr>
+                    <td colspan="4"><label id="titu">Estado de los led´s</label></td>
+                </tr>
+                <tr>
+                    <td><label>Blanco L:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+                    <td><label class="le" id="whiteL">0 %</label></td>
+                    <td><label>Verdes:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+                    <td><label class="le" id="green">0 %</label></td>
+                </tr>
+                <tr>
+                    <td><label>Blanco R:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+                    <td><label class="le" id="whiteR">0 %</label></td>
+                    <td><label>Rojos:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+                    <td><label class="le" id="red">0 %</label></td>
+                </tr>
+                <tr>
+                    <td><label>Blanco C:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+                    <td><label class="le" id="bed">0 %</label></td>
+                </tr>
+            </table> 
+        </div>
+        <div id="footer">
+            <h2>AutoRoom Web &copy;2019</h2>
+        </div>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script>
+
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+
+        <script src="scripts/config.js"></script>
+        <script src="scripts/session.js"></script>
+    </body>
+</html>
+            
+            

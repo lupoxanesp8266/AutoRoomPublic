@@ -1,0 +1,238 @@
+@import "https://fonts.googleapis.com/css?family=Ubuntu:400,700italic";
+@import "https://fonts.googleapis.com/css?family=Cabin:400";
+* {
+  box-sizing: border-box; 
+}
+
+html {
+  background-color: #000;
+  background-size: cover;
+  font-size: 10px;
+  height: 100%;
+  position: absolute;
+  text-align: center;
+  width: 100%; 
+}
+body{
+    margin: 0;
+    margin-bottom: 40px;
+}
+#h{
+  animation: text-glow 2s ease-out infinite alternate;
+  font-family: 'Ubuntu', sans-serif;
+  color: #00a4a2;
+  font-size: 48px;
+  font-size: 4.8rem;
+  font-weight: bold;
+  position: relative;
+  text-shadow: 0 0 10px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #000, 0 0 50px #000, 0 0 60px #000, 0 0 70px #000;
+  top: 1px; 
+}
+
+
+#footer {
+  animation: text-glow 2s ease-out infinite alternate;
+  font-family: 'Ubuntu', sans-serif;
+  background-color: gray;
+  position: relative;
+  font-size: 5px;
+  font-size: 1.0rem;
+  bottom: 0px;
+  width: 50%;
+  text-align: left;
+  height: 30px;
+  opacity: 0.4;
+  color: lawngreen;
+}
+
+#titu{
+    font-family: 'Ubuntu', sans-serif;
+  color: #00a4a2;
+  font-size: 48px;
+  font-size: 4.8rem;
+  font-weight: bold;
+}
+
+.stark-logout{
+  animation: form-entry 3s ease-in-out;
+  background: #111;
+  background: linear-gradient(#004746, #111111);
+  border: 6px solid #00a4a2;
+  box-shadow: 0 0 15px #00fffd;
+  border-radius: 5px;
+  height: 90px;
+  margin: 200px auto 0;
+  position: relative;
+  z-index: 4;
+  width: 820px;
+  transition: 1s all; 
+  bottom: 150px;
+  text-align: center;
+  display: table-cell;
+}
+.stark-logout button {
+  animation: input-entry 3s ease-in;
+  background: #222;
+  background: linear-gradient(#333333, #222222);
+  box-sizing: content-box;
+  border: 1px solid #444;
+  border-left-color: #000;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #000;
+  color: #fff;
+  display: block;
+  font-family: 'Cabin', helvetica, arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  height: 40px;
+  line-height: 40px;
+  margin: 20px auto;
+  padding: 0;
+  position: relative;
+  text-shadow: 0 -1px 0 #000;
+  width: 150px;
+  transition: 1s all;
+}
+.stark-logout button:hover, .stark-logout button:focus {
+  background: #0C6125;
+  background: linear-gradient(#393939, #292929);
+  color: #00fffc;
+  outline: none;
+  transition: 1s all; }
+.stark-logout button:active {
+  background: #292929;
+  background: linear-gradient(#393939, #292929);
+  box-shadow: 0 1px 0 #000, inset 1px 0 1px #222;
+  top: 10px; 
+}
+label{
+    color: white;
+}
+table{
+    animation: text-glow 2s ease-out infinite alternate;
+    font-family: 'Ubuntu', sans-serif;
+    color: #00a4a2;
+    font-size: 48px;
+    font-size: 2.8rem;
+    font-weight: bold;
+    position: relative;
+    text-shadow: 0 0 10px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #000, 0 0 50px #000, 0 0 60px #000, 0 0 70px #000;
+    bottom: 100px;
+    text-align: center;
+}
+#tempExt{
+    color: rgba(255,0,0,1);
+}
+
+#tempInt{
+    color: red;
+}
+
+#mov{
+    color: blue;
+}
+
+.le{
+    color: red;
+}
+
+.switch {
+  position: relative;
+  display: block;
+  vertical-align: top;
+  width: 100px;
+  height: 30px;
+  padding: 3px;
+  margin: 0 10px 10px 0;
+  background: linear-gradient(to bottom, #eeeeee, #FFFFFF 25px);
+  background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
+  border-radius: 18px;
+  box-shadow: inset 0 -1px blue, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+.switch-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.switch-label {
+  position: relative;
+  display: block;
+  height: inherit;
+  font-size: 10px;
+  text-transform: uppercase;
+  background: red;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
+}
+.switch-label:before, .switch-label:after {
+  position: absolute;
+  top: 50%;
+  margin-top: -.5em;
+  line-height: 1;
+  -webkit-transition: inherit;
+  -moz-transition: inherit;
+  -o-transition: inherit;
+  transition: inherit;
+}
+.switch-label:before {
+  content: attr(data-off);
+  right: 11px;
+  color: #aaaaaa;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+}
+.switch-label:after {
+  content: attr(data-on);
+  left: 11px;
+  color: #FFFFFF;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+}
+.switch-input:checked ~ .switch-label {
+  background: green;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+.switch-input:checked ~ .switch-label:before {
+  opacity: 0;
+}
+.switch-input:checked ~ .switch-label:after {
+  opacity: 1;
+}
+.switch-handle {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(to bottom, #FFFFFF 40%, #f0f0f0);
+  background-image: -webkit-linear-gradient(top, #FFFFFF 40%, #f0f0f0);
+  border-radius: 100%;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+.switch-handle:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -6px 0 0 -6px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(to bottom, #eeeeee, #FFFFFF);
+  background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF);
+  border-radius: 6px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.02);
+}
+.switch-input:checked ~ .switch-handle {
+  left: 74px;
+  box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+ 
+/* Transition
+========================== */
+.switch-label, .switch-handle {
+  transition: All 0.3s ease;
+  -webkit-transition: All 0.3s ease;
+  -moz-transition: All 0.3s ease;
+  -o-transition: All 0.3s ease;
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/iluminacion"
+        android:icon="@drawable/ligths21"
+        android:title="@string/iluminaci_n"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/comfort"
+        android:icon="@drawable/fan"
+        android:title="@string/comfort"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/leds"
+        android:title="@string/led_sName"
+        android:icon="@drawable/ledthumb"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/grabar"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:title="@string/voz"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/graphsId"
+        android:icon="@drawable/graficas2"
+        android:title="@string/contacto"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:title="@string/m_s"
+        android:icon="@color/colorPrimary">
+        <menu>
+            <item
+                android:id="@+id/tools"
+                android:icon="@android:drawable/ic_menu_preferences"
+                android:title="@string/sistema"
+                app:showAsAction="never"/>
+            <item
+                android:id="@+id/logout"
+                android:icon="@android:drawable/ic_partial_secure"
+                android:title="@string/cerrarSession"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/cerrar"
+                android:icon="@android:drawable/ic_delete"
+                android:title="@string/salir"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+    <item
+        android:title="@string/alarma_intruso"
+        android:icon="@color/colorPrimary">
+        <menu>
+            <item
+                android:id="@+id/anotherAlarm"
+                android:icon="@android:drawable/ic_secure"
+                android:title="@string/alarma_intruso"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
+</menu>

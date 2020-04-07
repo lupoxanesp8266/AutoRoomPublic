@@ -1,0 +1,99 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_margin"
+    android:theme="@android:style/Animation.Activity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/appwidget_text"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold|italic" />
+
+    <LinearLayout
+        android:id="@+id/l2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B5B5B5"
+        android:fadingEdge="vertical"
+        android:gravity="center">
+        <!-- Widget enrolled classes -->
+
+        <TextView
+            android:id="@+id/appwidget_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/tempExt"
+            android:textAlignment="center"
+            android:textColor="@color/Verde_seek"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/temp_ext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="#F30004"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="@string/init" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2E9AFE"
+        android:fadingEdge="horizontal"
+        android:gravity="center">
+        <!-- Widget enrolled classes -->
+
+        <TextView
+            android:id="@+id/temp_int"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="2"
+            android:text="@string/tempInt"
+            android:textAlignment="center"
+            android:textColor="@color/Verde_seek"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tempIntLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="2"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="@string/init" />
+
+    </LinearLayout>
+
+</LinearLayout>

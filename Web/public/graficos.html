@@ -1,0 +1,45 @@
+<!Doctype html>
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="styles/style1.css">
+        <title>Temperaturas</title>
+        <link rel="shortcut icon" href="images/graficos1.jpg">
+    </head>
+    <body>
+        <div id="contenedor">
+        <header>
+            <h1>Registros de temperaturas</h1>
+            <img src="images/graficos1.jpg" width="250" height="200">
+            <h3>Registros actuales</h3>
+        </header>
+        <nav>
+            <a href="index.html">Inicio</a> | <a href="contacto.html">Contacto</a> | <a href="inicioSesion.html">Iniciar sesión</a> |
+            <a href="graficos.html">Registros temperaturas</a> | <a href="otros.html">Otros</a>
+        </nav>
+        <br />
+        <section>
+            <table>
+                <tr>
+                    <th style="text-align: center">Temperaturas</th>
+                    <th style="text-align: center">Movimiento</th>
+                </tr>
+                <tr>
+                    <td>
+                        <ul>
+                            <li><label>Exterior: <b id="tempExt"></b></label><br /></li>
+                            <li><label>Interior: <b id="tempInt"></b></label></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li><label>Movimiento: <b id="mov"></b></label></li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+            <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+            <script src="scripts/graficos.js"></script>
+        </section>
+        </div>
+    </body>
+</html>

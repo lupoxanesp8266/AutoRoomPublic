@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backligthsactivity"
+    tools:context=".Iluminacion">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:keepScreenOn="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/menosbutton"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/cama_lamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2"
+                    android:padding="15dp"
+                    android:text="@string/cama"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    app:layout_constraintTop_toBottomOf="@+id/mesa_lamp"
+                    tools:layout_editor_absoluteX="8dp" />
+
+                <CheckBox
+                    android:id="@+id/camaCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2"
+                    android:focusableInTouchMode="false"
+                    android:longClickable="true"
+                    android:padding="8dp"
+                    android:text="@string/automatic"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    app:layout_constraintBottom_toBottomOf="@+id/cama_lamp"
+                    app:layout_constraintTop_toTopOf="@+id/cama_lamp"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:layout_editor_absoluteX="268dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@drawable/menosbutton"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/mesa_lamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2"
+                    android:padding="15dp"
+                    android:text="@string/mesa"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    app:layout_constraintStart_toStartOf="@+id/general_lamp"
+                    app:layout_constraintTop_toBottomOf="@+id/general_lamp" />
+
+                <CheckBox
+                    android:id="@+id/mesaCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2"
+                    android:longClickable="true"
+                    android:padding="8dp"
+                    android:text="@string/automatic"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    app:layout_constraintBottom_toBottomOf="@+id/mesa_lamp"
+                    app:layout_constraintStart_toEndOf="@+id/mesa_lamp"
+                    app:layout_constraintTop_toTopOf="@+id/mesa_lamp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@drawable/menosbutton"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/general_lamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2"
+                    android:padding="15dp"
+                    android:text="@string/general"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="200dp" />
+
+                <CheckBox
+                    android:id="@+id/upCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2"
+                    android:longClickable="true"
+                    android:padding="8dp"
+                    android:text="@string/automatic"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:typeface="serif"
+                    app:layout_constraintBottom_toBottomOf="@+id/general_lamp"
+                    app:layout_constraintStart_toEndOf="@+id/general_lamp"
+                    app:layout_constraintTop_toTopOf="@+id/general_lamp" />
+
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/otherLamp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@drawable/menosbutton"
+                android:text="@string/exterior"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:typeface="serif"
+                android:padding="15dp"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

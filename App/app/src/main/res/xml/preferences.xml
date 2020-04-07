@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/sistema">
+
+        <EditTextPreference
+            android:textColor="@color/colorPrimary"
+            android:shadowColor="@color/Comfort"
+            android:defaultValue="@string/app_name"
+            android:key="userName"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/main_name" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/colors">
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/reply_entries"
+            android:entryValues="@array/reply_values"
+            android:key="gaugeColor"
+            android:title="@string/color_gauge" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/notifications">
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/not_values"
+            android:entries="@array/not_entries"
+            android:entryValues="@array/not_values"
+            android:key="notifications"
+            android:title="@string/choose_notifications" />
+    </PreferenceCategory>
+</PreferenceScreen>

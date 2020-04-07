@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/today"
+        android:icon="@android:drawable/ic_popup_sync"
+        android:title="@string/lista_de_valores"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/registros"
+        android:icon="@drawable/intruso"
+        android:title="@string/movimiento"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/cambio"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/lista_de_valores"
+        app:showAsAction="ifRoom" />
+</menu>

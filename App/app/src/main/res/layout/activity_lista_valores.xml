@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_google_signin_btn_text_dark_focused"
+    android:keepScreenOn="true"
+    tools:context=".ListaValores">
+
+    <ListView
+        android:id="@+id/listView"
+        style="@android:style/Widget.DeviceDefault.Light.ListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animationCache="true"
+        android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+        android:cacheColorHint="@color/Verde_seek"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:divider="@color/common_google_signin_btn_text_dark_focused"
+        android:dividerHeight="2dp"
+        android:fadingEdge="horizontal"
+        android:focusableInTouchMode="false"
+        android:footerDividersEnabled="false"
+        android:foregroundGravity="center"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="vertical"
+        android:textAlignment="center"
+        android:textDirection="locale"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
