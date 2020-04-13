@@ -25,7 +25,7 @@ import com.lupoxan.autoroom.model.BackGround;
 /**
  * @since 29/02/2020
  * @author lupo.xan
- * @version 0.4
+ * @version 0.5
  */
 public class LogInFrame extends JPanel {
 	
@@ -83,7 +83,7 @@ public class LogInFrame extends JPanel {
 		nameLabel = new JLabel(" Usuario: ");
 		nameLabel.setForeground(new Color(255, 255, 255));
 		nameLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
-		constraints.gridx = 1;
+		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
@@ -104,7 +104,7 @@ public class LogInFrame extends JPanel {
 		passLabel = new JLabel(" Contraseña: ");
 		passLabel.setForeground(new Color(255, 255, 255));
 		passLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
-		constraints.gridx = 1;
+		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
@@ -138,7 +138,7 @@ public class LogInFrame extends JPanel {
 		JLabel copyLabel = new JLabel();
 		copyLabel.setIcon(new ImageIcon("/home/pi/autoRoom/img/logoAutoRoom.png"));
 		copyLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		constraints.gridx = 1;
+		constraints.gridx = 0;
 		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 2;

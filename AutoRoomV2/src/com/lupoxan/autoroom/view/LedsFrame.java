@@ -392,7 +392,6 @@ public class LedsFrame extends JPanel {
 				verdeValue.setText(verdeSlider.getValue() + "%");
 				SoftPwm.softPwmWrite(AutoRoom.verde, verdeSlider.getValue());
 				AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.LEDS)).child(AutoRoom.F.prop(Constantes.VERDES)).setValueAsync(verdeSlider.getValue());
-				AutoRoom.test.test(verdeSlider.getValue());
 			}
 		});
 		constraints.gridx = 1;

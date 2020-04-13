@@ -30,7 +30,8 @@ public class MenuFrame extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BackGround backGround;
 	private JButton exit, lights, comfort, leds, graphs, tools;
-	private JLabel dateLabel, hourLabel, movementValue, tempIntValue, tempExtValue, luxValue;
+	private JLabel dateLabel, hourLabel, movementValue, tempIntValue, tempExtValue;
+	private JButton sensors;
 	
 	public MenuFrame(ActionListeners actions) {
 		super();
@@ -193,15 +194,7 @@ public class MenuFrame extends JPanel {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(movementLabel, constraints);
-		// Lux Label
-		JLabel luxLabel = new JLabel(" Lux ");
-		luxLabel.setForeground(new Color(255, 255, 255));
-		luxLabel.setFont(new Font(Font.SERIF, Font.BOLD, 17));
-		constraints.gridx = 4;
-		constraints.gridy = 4;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		this.add(luxLabel, constraints);
+		
 		// Inside temperature value label
 		tempIntValue = new JLabel("00,00 ºC");
 		tempIntValue.setOpaque(true);
@@ -245,19 +238,21 @@ public class MenuFrame extends JPanel {
 		constraints.gridheight = 1;
 		this.add(movementValue, constraints);
 		// CopyRight Label
-		luxValue = new JLabel("0 lx");
-		luxValue.setOpaque(true);
-		luxValue.setBackground(new Color(51, 255, 51));
-		luxValue.setForeground(new Color(255, 0, 0));
-		luxValue.setFont(new Font(Font.SERIF, Font.BOLD, 18));
-		luxValue.setHorizontalAlignment(SwingConstants.CENTER);
-		luxValue.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		luxValue.setPreferredSize(new Dimension(100,50));
-		constraints.gridx = 5;
+		sensors = new JButton("Sensores");
+		sensors.setOpaque(true);
+		sensors.addActionListener(actions);
+		sensors.setActionCommand("sensores");
+		sensors.setBackground(new Color(51, 255, 51));
+		sensors.setForeground(new Color(255, 0, 0));
+		sensors.setFont(new Font(Font.SERIF, Font.BOLD, 18));
+		sensors.setHorizontalAlignment(SwingConstants.CENTER);
+		sensors.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+		sensors.setPreferredSize(new Dimension(200,50));
+		constraints.gridx = 4;
 		constraints.gridy = 4;
-		constraints.gridwidth = 1;
+		constraints.gridwidth = 2;
 		constraints.gridheight = 1;
-		this.add(luxValue, constraints);
+		this.add(sensors, constraints);
 	}
 
 	public JButton getExit() {
@@ -346,14 +341,6 @@ public class MenuFrame extends JPanel {
 
 	public void setTempExtValue(JLabel tempExtValue) {
 		this.tempExtValue = tempExtValue;
-	}
-
-	public JLabel getLuxValue() {
-		return luxValue;
-	}
-
-	public void setLuxValue(JLabel luxValue) {
-		this.luxValue = luxValue;
 	}
 	
 

@@ -1,10 +1,10 @@
 
 package com.lupoxan.autoroom.model;
 
-//import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-//import java.io.InputStreamReader;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -21,7 +21,7 @@ public class WiFiDevices extends Thread{
 
 	private Socket socket;
 	private PrintWriter output;
-	//private BufferedReader input;
+	private BufferedReader input;
 	private final Ficheros F = new Ficheros();
 	private char status;
 
@@ -30,12 +30,12 @@ public class WiFiDevices extends Thread{
 			this.status = status;
 			
 			socket = new Socket(addr, Integer.parseInt(F.prop(Constantes.PORT)));
-			//input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			output = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 			
 			start();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -44,9 +44,22 @@ public class WiFiDevices extends Thread{
 		
 		try {
 			output.println(status);
-			System.out.println("Enviado: " + status);
+			if(status == 'D') {
+				String[] line = input.readLine().split(",");
+				
+				AutoRoom.mainFrame.getSensorsFrame().getStatusDHTValue().setText(line[0]);
+				AutoRoom.mainFrame.getSensorsFrame().getTempDHTValue().setText(line[1] + " ºC");
+				AutoRoom.mainFrame.getSensorsFrame().getHumDHTValue().setText(line[2] + " %");
+				AutoRoom.mainFrame.getSensorsFrame().getSensValue().setText(line[3] + " ºC");
+				
+				AutoRoom.DATACLOUD.getDB().child("sensores").child("humedad").setValueAsync(line[2] + " %");
+				AutoRoom.DATACLOUD.getDB().child("sensores").child("tempDht11").setValueAsync(line[1] + " ºC");
+				AutoRoom.DATACLOUD.getDB().child("sensores").child("sensTermica").setValueAsync(line[3] + " ºC");
+			}
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {

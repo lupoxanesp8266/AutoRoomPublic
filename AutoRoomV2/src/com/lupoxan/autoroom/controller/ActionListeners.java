@@ -92,15 +92,17 @@ public class ActionListeners implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "login":
-			user = LOCALBD.getUser(mainframe.getLogin().getNameField().getText(),new String(mainframe.getLogin().getPasswordField().getPassword()));
-			
-			if(user != null) {
+			user = LOCALBD.getUser(mainframe.getLogin().getNameField().getText(),
+					new String(mainframe.getLogin().getPasswordField().getPassword()));
+
+			if (user != null) {
 				back();
 
 				mainframe.getLogin().getNameField().setText("");
 				mainframe.getLogin().getPasswordField().setText("");
-				
-			}else {
+				LOCALBD.addLog("LogIn for " + user.getName(), new Timestamp(new Date().getTime()));
+
+			} else {
 				JOptionPane.showMessageDialog(null, F.prop(Constantes.ERROR));
 			}
 
@@ -213,7 +215,8 @@ public class ActionListeners implements ActionListener {
 			mainframe.getLights().getCamaOn().setText("Encendido");
 			mainframe.getLights().getCamaOff().setBackground(new Color(51, 51, 51));
 			mainframe.getLights().getCamaOff().setText("Apagar");
-			AutoRoom.DATACLOUD.getDB().child(F.prop(Constantes.LIGHTS)).child("luces").child("cama").setValueAsync(true);
+			AutoRoom.DATACLOUD.getDB().child(F.prop(Constantes.LIGHTS)).child("luces").child("cama")
+					.setValueAsync(true);
 			break;
 		case "camaOff":
 			AutoRoom.cama.high();
@@ -221,7 +224,8 @@ public class ActionListeners implements ActionListener {
 			mainframe.getLights().getCamaOff().setText("Apagado");
 			mainframe.getLights().getCamaOn().setBackground(new Color(51, 51, 51));
 			mainframe.getLights().getCamaOn().setText("Encender");
-			AutoRoom.DATACLOUD.getDB().child(F.prop(Constantes.LIGHTS)).child("luces").child("cama").setValueAsync(false);
+			AutoRoom.DATACLOUD.getDB().child(F.prop(Constantes.LIGHTS)).child("luces").child("cama")
+					.setValueAsync(false);
 			break;
 		case "generalOn":
 			AutoRoom.general.low();
@@ -231,6 +235,7 @@ public class ActionListeners implements ActionListener {
 			mainframe.getLights().getGeneralOff().setText("Apagar");
 			AutoRoom.DATACLOUD.getDB().child(F.prop(Constantes.LIGHTS)).child("luces").child("general")
 					.setValueAsync(true);
+
 			break;
 		case "generalOff":
 			AutoRoom.general.high();
@@ -238,34 +243,35 @@ public class ActionListeners implements ActionListener {
 			mainframe.getLights().getGeneralOff().setText("Apagado");
 			mainframe.getLights().getGeneralOn().setBackground(new Color(51, 51, 51));
 			mainframe.getLights().getGeneralOn().setText("Encender");
-			AutoRoom.DATACLOUD.getDB().child(F.prop(Constantes.LIGHTS)).child("luces").child("general").setValueAsync(false);
+			AutoRoom.DATACLOUD.getDB().child(F.prop(Constantes.LIGHTS)).child("luces").child("general")
+					.setValueAsync(false);
 			break;
 		case "otherOn":
 			try {
 				addr = InetAddress.getByName(F.prop(Constantes.IP1));
-				new WiFiDevices(addr,'H');
+				new WiFiDevices(addr, 'H');
 				AutoRoom.DATACLOUD.getDB().child("iluminacion").child("luces").child("exterior").setValueAsync(true);
-				System.out.println("OtherOn");
 				mainframe.getLights().getOtherOn().setBackground(new Color(0, 255, 0));
 				mainframe.getLights().getOtherOn().setText("Encendido");
 				mainframe.getLights().getOtherOff().setBackground(new Color(51, 51, 51));
 				mainframe.getLights().getOtherOff().setText("Apagar");
 			} catch (UnknownHostException e2) {
-				e2.printStackTrace();
+				System.err.println(e2.getMessage());
+				LOCALBD.addError(e2.getMessage(), new Timestamp(new Date().getTime()));
 			}
 			break;
 		case "otherOff":
 			try {
 				addr = InetAddress.getByName(F.prop(Constantes.IP1));
-				new WiFiDevices(addr,'L');
+				new WiFiDevices(addr, 'L');
 				AutoRoom.DATACLOUD.getDB().child("iluminacion").child("luces").child("exterior").setValueAsync(false);
-				System.out.println("OtherOff");
 				mainframe.getLights().getOtherOff().setBackground(new Color(255, 0, 0));
 				mainframe.getLights().getOtherOff().setText("Apagado");
 				mainframe.getLights().getOtherOn().setBackground(new Color(51, 51, 51));
 				mainframe.getLights().getOtherOn().setText("Encender");
 			} catch (UnknownHostException e2) {
-				e2.printStackTrace();
+				System.err.println(e2.getMessage());
+				LOCALBD.addError(e2.getMessage(), new Timestamp(new Date().getTime()));
 			}
 			break;
 		case "onAllLeds":
@@ -287,8 +293,6 @@ public class ActionListeners implements ActionListener {
 				mainframe.getComfort().getHeatOn().setVisible(false);
 				mainframe.getComfort().getCoolOn().setVisible(false);
 				mainframe.getComfort().getCoolOff().setVisible(false);
-				mainframe.getComfort().getAutoCool().setVisible(false);
-				mainframe.getComfort().getAutoHeat().setVisible(false);
 				comfortMode = HEAT;
 			}
 			break;
@@ -298,8 +302,6 @@ public class ActionListeners implements ActionListener {
 				mainframe.getComfort().getHeatOn().setVisible(true);
 				mainframe.getComfort().getCoolOn().setVisible(true);
 				mainframe.getComfort().getCoolOff().setVisible(true);
-				mainframe.getComfort().getAutoCool().setVisible(true);
-				mainframe.getComfort().getAutoHeat().setVisible(true);
 				comfortMode = OFF;
 			}
 			break;
@@ -309,8 +311,6 @@ public class ActionListeners implements ActionListener {
 				mainframe.getComfort().getHeatOn().setVisible(false);
 				mainframe.getComfort().getCoolOn().setVisible(false);
 				mainframe.getComfort().getHeatOff().setVisible(false);
-				mainframe.getComfort().getAutoCool().setVisible(false);
-				mainframe.getComfort().getAutoHeat().setVisible(false);
 				comfortMode = COOL;
 			}
 			break;
@@ -320,8 +320,6 @@ public class ActionListeners implements ActionListener {
 				mainframe.getComfort().getHeatOn().setVisible(true);
 				mainframe.getComfort().getCoolOn().setVisible(true);
 				mainframe.getComfort().getHeatOff().setVisible(true);
-				mainframe.getComfort().getAutoCool().setVisible(true);
-				mainframe.getComfort().getAutoHeat().setVisible(true);
 				comfortMode = OFF;
 			}
 			break;
@@ -367,26 +365,26 @@ public class ActionListeners implements ActionListener {
 			}
 			break;
 		case "firebaseTools":
-			if(user.getLevel() == 1) {
+			if (user.getLevel() == 1) {
 				mainframe.getFirebaseFrame().setVisible(true);
 				mainframe.getTools().setVisible(false);
-				mainframe.setTitle("Firebase Admin");	
-			}else {
+				mainframe.setTitle("Firebase Admin");
+			} else {
 				JOptionPane.showMessageDialog(null, "No tienes permiso");
 			}
 			break;
 		case "localTools":
-			if(user.getLevel() == 1) {
+			if (user.getLevel() == 1) {
 				mainframe.getLocalFrame().setVisible(true);
 				mainframe.getTools().setVisible(false);
 				mainframe.setTitle("Local Admin");
 				userList.clear();
 				userList = LOCALBD.getAllUsers();
 				mainframe.getLocalFrame().fillTable(userList);
-			}else {
+			} else {
 				JOptionPane.showMessageDialog(null, "No tienes permiso");
 			}
-			
+
 			break;
 		case "changeFirebaseUser":
 			String uid = mainframe.getFirebaseFrame().getFirebaseUserTable().getModel()
@@ -420,7 +418,7 @@ public class ActionListeners implements ActionListener {
 			break;
 		case "autoLedsBox":
 			if (AutoRoom.mainFrame.getLeds().getLedsAutoBox().isSelected()) {
-				
+
 				controlLeds.setCheckBox(AutoRoom.mainFrame.getLeds().getLedsAutoBox());
 				controlLeds.setValores(AutoRoom.mainFrame.getLeds().getValores());
 				controlLeds.setMode(3);
@@ -501,6 +499,10 @@ public class ActionListeners implements ActionListener {
 				AutoRoom.DATACLOUD.getDB().child("leds").child("blinker").setValueAsync(false);
 			}
 			break;
+		case "sensores":
+			mainframe.getSensorsFrame().setVisible(true);
+			mainframe.getMenu().setVisible(false);
+			break;
 		case "back":
 			back();
 			break;
@@ -508,18 +510,13 @@ public class ActionListeners implements ActionListener {
 			x = JOptionPane.showOptionDialog(null, "¿Seguro que deseas salir?", "Cerrar", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.INFORMATION_MESSAGE, null, opciones, opciones[0]);
 			if (x == 0) {
-				try {
-					AutoRoom.test.getArduino().stop();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}finally {
-					AutoRoom.general.high();
-					AutoRoom.mesa.high();
-					AutoRoom.cama.high();
-					AutoRoom.fan.high();
-					
-					System.exit(0);	
-				}
+				AutoRoom.general.high();
+				AutoRoom.mesa.high();
+				AutoRoom.cama.high();
+				AutoRoom.fan.high();
+
+				System.exit(0);
+
 			}
 			break;
 		}
@@ -550,6 +547,7 @@ public class ActionListeners implements ActionListener {
 		mainframe.getLeds().setVisible(false);
 		mainframe.getGraphs().setVisible(false);
 		mainframe.getTools().setVisible(false);
+		mainframe.getSensorsFrame().setVisible(false);
 		mainframe.setTitle("Menú");
 	}
 

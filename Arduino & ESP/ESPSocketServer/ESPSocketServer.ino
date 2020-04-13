@@ -1,18 +1,13 @@
-/**
- * Este programa pretende crear un servidor para un esp32
- * el cual pueda transmitir y recibir datos de la raspberry
- * así podremos controlar tanto entradas como salidas
- * 
- * @since 05/04/2020
- * @author lupo.xan
- * @version 0.3
- */
-#include <WiFi.h>
+﻿#include <WiFi.h>
+#include "DHTesp.h"
 
-const char* ssid = "**************";
+#define DHTpin 12    //D15 of ESP32 DevKit
+
+const char* ssid = "***********";
 const char* password =  "**********";
 
-WiFiServer server(*****);
+WiFiServer server(5555);
+DHTesp dht;
 
 void setup()
 {
@@ -37,35 +32,45 @@ void setup()
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
     pinMode(13,OUTPUT);
-    pinMode(35,INPUT);
     server.begin();
+    dht.setup(DHTpin, DHTesp::DHT11); //for DHT11 Connect DHT sensor to GPIO 17
+  //dht.setup(DHTpin, DHTesp::DHT22); //for DHT22 Connect DHT sensor to GPIO 17
 
 }
 
 void loop(){
- WiFiClient client = server.available();   // listen for incoming clients
+ WiFiClient client = server.available(); 
 
-  if (client) {                             // if you get a client,
-    Serial.println("New Client.");           // print a message out the serial port
-    String currentLine = "";                // make a String to hold incoming data from the client
-    while (client.connected()) {            // loop while the client's connected
-      if (client.available()) {             // if there's bytes to read from the client,
+  if (client) {                    
+    Serial.println("New Client."); 
+    while (client.connected()) {         
+      if (client.available()) {
         char c = client.read();
-        if(c == 'H'){
-          digitalWrite(13,HIGH);
+        switch(c){
+          case 'H':
+            digitalWrite(13,HIGH);
+            client.println("on");
+          break;
+          case 'L':
+            digitalWrite(13,LOW);
+            client.println("off");
+          break;
+          case 'D':
+            float humidity = dht.getHumidity();
+            float temperature = dht.getTemperature();
+            delay(100);
+            String cadena = dht.getStatusString();
+            cadena += ",";
+            cadena += temperature;
+            cadena += ",";
+            cadena += humidity;
+            cadena += ",";
+            cadena += dht.computeHeatIndex(temperature, humidity, false);
+            client.println(cadena);
+          break;
         }
-        if(c == 'L'){
-          digitalWrite(13,LOW);
-        }
-        client.print("Value: ");
-        client.println(analogRead(35));
-        
-        Serial.println("Recibido: ");
-        Serial.println(c);
-
       }
     }
-    // close the connection:
     client.stop();
     Serial.println("Client Disconnected.");
   }

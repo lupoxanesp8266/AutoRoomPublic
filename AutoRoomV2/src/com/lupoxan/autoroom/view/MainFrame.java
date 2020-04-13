@@ -20,9 +20,9 @@ import com.lupoxan.autoroom.model.LocalUser;
  * @version 0.6
  */
 public class MainFrame extends JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private MenuFrame menu;
 	private LogInFrame login;
 	private LightsFrame lights;
@@ -32,23 +32,24 @@ public class MainFrame extends JFrame {
 	private ToolsFrame tools;
 	private FirebaseFrame firebaseFrame;
 	private MariaDBFrame localFrame;
+	private SensorsFrame sensorsFrame;
 	private JPanel container;
 	public static LocalUser user;
-	
+
 	public MainFrame(ActionListeners action, ChangeStateListeners changeStateListeners) throws HeadlessException {
 		super();
-		//Only for decorated
+		// Only for decorated
 		try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		JFrame.setDefaultLookAndFeelDecorated(true);
 		this.setTitle("AutoRoom");
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -60,39 +61,40 @@ public class MainFrame extends JFrame {
 		container.setLayout(new CardLayout(10, 10));
 		container.setBackground(Color.DARK_GRAY);
 		this.setContentPane(container);
-		
+
 		login = new LogInFrame(action);
 		container.add(login);
-		
+
 		menu = new MenuFrame(action);
 		container.add(menu);
-		
+
 		lights = new LightsFrame(action);
 		container.add(lights);
-		
+
 		comfort = new ComfortFrame(action);
 		container.add(comfort);
-		
+
 		leds = new LedsFrame(action, changeStateListeners);
 		container.add(leds);
-		
+
 		graphs = new GraphsFrame(action);
 		container.add(graphs);
-		
+
 		tools = new ToolsFrame(action);
 		container.add(tools);
-		
+
 		firebaseFrame = new FirebaseFrame(action);
 		container.add(firebaseFrame);
-		
+
 		localFrame = new MariaDBFrame(action);
 		container.add(localFrame);
-		
-		login.setVisible(true);
-	
-	}
 
-	
+		sensorsFrame = new SensorsFrame(action);
+		container.add(sensorsFrame);
+
+		login.setVisible(true);
+
+	}
 
 	public MenuFrame getMenu() {
 		return menu;
@@ -101,7 +103,7 @@ public class MainFrame extends JFrame {
 	public void setMenu(MenuFrame menu) {
 		this.menu = menu;
 	}
-	
+
 	public LogInFrame getLogin() {
 		return login;
 	}
@@ -162,10 +164,16 @@ public class MainFrame extends JFrame {
 		return localFrame;
 	}
 
-
-
 	public void setLocalFrame(MariaDBFrame localFrame) {
 		this.localFrame = localFrame;
+	}
+
+	public SensorsFrame getSensorsFrame() {
+		return sensorsFrame;
+	}
+
+	public void setSensorsFrame(SensorsFrame sensorsFrame) {
+		this.sensorsFrame = sensorsFrame;
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.lupoxan.autoroom.model;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -87,10 +90,7 @@ public class AutoRoom {
      * Objeto del tipo Ficheros para el acceso al properties y al csv
      */
     public static final Ficheros F = new Ficheros();
-    /**
-     * 
-     */
-    public static Arduino test = new Arduino();
+    
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -159,6 +159,7 @@ public class AutoRoom {
 		Timer servoTimer;// Para el SERVO con PiCam
 		Timer timerConsigna;// Para la consigna de comfort
 		Timer lux;//Para ver la cantidad de lux que hay
+		Timer timerDHT11;//Para ver los valores del sensor DHT11
 
 		TimerTask mostrarFechora;// Tarea para mostrar la fecha y la hora
 		TimerTask tareaPir;// Para el sensor PIR
@@ -172,6 +173,7 @@ public class AutoRoom {
 		TimerTask servoTask;// Para mover la PiCam con el SERVO
 		TimerTask taskConsigna;// Para la consigna de comfort
 		TimerTask luxTask;//Para ver la cantidad de lux que hay
+		TimerTask dht11Task;//Para ver los valores del sensor DHT11
 
 		// Timer - 0
 		fechora = new Timer();
@@ -205,6 +207,7 @@ public class AutoRoom {
 			public void run() {
 				AutoRoom.DATACLOUD.getDB().child("sensores").child("movimiento").setValueAsync(pir.getState());
 				mainFrame.getMenu().getMovementValue().setText(pir.getState().toString());
+				mainFrame.getSensorsFrame().getMovementValue().setText(pir.getState().toString());
 				
 				if (pir.isHigh() && flag) {
 					AutoRoom.DATACLOUD.getDB().child("sensores").child("PIR").child(AutoRoom.mainFrame.getMenu().getDateLabel().getText()).child(AutoRoom.mainFrame.getMenu().getHourLabel().getText()).setValueAsync(AutoRoom.pir.getState());
@@ -223,8 +226,7 @@ public class AutoRoom {
 			@Override
 			public void run() {
 				TwitterDev tw = new TwitterDev();
-				tw.sendTweet("Temperatura Interior: " + TEMPINT.getTempC(true) + " ºC -- Temperatura Exterior: "
-						+ TEMPEXT.getTempC(false) + " ºC -- Climatización: " + modoAire);
+				tw.sendTweet("Temperatura Exterior: " + mainFrame.getSensorsFrame().getTempDHTValue().getText() + " -- Humedad exterior: " + mainFrame.getSensorsFrame().getHumDHTValue().getText());
 			}
 		};
 		tweet.scheduleAtFixedRate(send_tweet, 12, 60000 * 60 * 8);// Para enviar tweet cada 8 HORAS*/
@@ -237,6 +239,7 @@ public class AutoRoom {
 
 				mainFrame.getMenu().getTempIntValue().setText(String.format("%.2f ºC", temperaturaI));// Poner texto
 				mainFrame.getComfort().getTempIntValue().setText(String.format("%.2f ºC", temperaturaI));
+				mainFrame.getSensorsFrame().getTempIntValue().setText(String.format("%.2f ºC", temperaturaI));
 				
 				DATACLOUD.getDB().child("sensores").child("temp_int").setValueAsync(mainFrame.getMenu().getTempIntValue().getText());
 			}
@@ -251,6 +254,7 @@ public class AutoRoom {
 
 				mainFrame.getMenu().getTempExtValue().setText(String.format("%.2f ºC", temperaturaE));// Poner texto
 				mainFrame.getComfort().getTempExtValue().setText(String.format("%.2f ºC", temperaturaE));
+				mainFrame.getSensorsFrame().getTempExtValue().setText(String.format("%.2f ºC", temperaturaE));
 
 				DATACLOUD.getDB().child("sensores").child("temp_ext").setValueAsync(mainFrame.getMenu().getTempExtValue().getText());
 			}
@@ -267,7 +271,11 @@ public class AutoRoom {
 						 AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/" + AutoRoom.mainFrame.getMenu().getHourLabel().getText()).child("Temp_Ext").setValueAsync(AutoRoom.mainFrame.getMenu().getTempExtValue().getText());
 						 AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/" + AutoRoom.mainFrame.getMenu().getHourLabel().getText()).child("Temp_Int").setValueAsync(AutoRoom.mainFrame.getMenu().getTempIntValue().getText());
 						 AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/" + AutoRoom.mainFrame.getMenu().getHourLabel().getText()).child("Movimiento").setValueAsync(AutoRoom.pir.getState());
-
+						 
+						 AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child("exterior").child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/" + AutoRoom.mainFrame.getMenu().getHourLabel().getText()).child("status").setValueAsync(AutoRoom.mainFrame.getSensorsFrame().getStatusDHTValue().getText());
+						 AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child("exterior").child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/" + AutoRoom.mainFrame.getMenu().getHourLabel().getText()).child("temperatura").setValueAsync(AutoRoom.mainFrame.getSensorsFrame().getTempDHTValue().getText());
+						 AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child("exterior").child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/" + AutoRoom.mainFrame.getMenu().getHourLabel().getText()).child("humedad").setValueAsync(AutoRoom.mainFrame.getSensorsFrame().getHumDHTValue().getText());
+						 AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child("exterior").child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/" + AutoRoom.mainFrame.getMenu().getHourLabel().getText()).child("sensTermica").setValueAsync(AutoRoom.mainFrame.getSensorsFrame().getSensValue().getText());
 						logSensors = false;
 					}
 				} else {
@@ -381,37 +389,61 @@ public class AutoRoom {
 		taskConsigna = new TimerTask() {
 			@Override
 			public void run() {
-				/*
-				 * String[] consigna = AutoRoom.consignaLabel.getText().split(" ºC"); String[]
-				 * tempIn = AutoRoom.tempIntLabel.getText().split(",");
-				 * 
-				 * if (AutoRoom.autoFrio.isSelected()) { if (Integer.parseInt(tempIn[0]) <
-				 * Integer.parseInt(consigna[0])) { AutoRoom.aire_off_frio.doClick();
-				 * AutoRoom.autoFrioLabel.setText("Apagado"); } if (Integer.parseInt(tempIn[0])
-				 * > Integer.parseInt(consigna[0])) { AutoRoom.aire_on_frio.doClick();
-				 * AutoRoom.autoFrioLabel.setText("Encendido"); } } if
-				 * (AutoRoom.autoCalor.isSelected()) { if (Integer.parseInt(tempIn[0]) <
-				 * Integer.parseInt(consigna[0])) { AutoRoom.aire_on_calor.doClick();
-				 * AutoRoom.autoCalorLabel.setText("Encendido"); } if
-				 * (Integer.parseInt(tempIn[0]) > Integer.parseInt(consigna[0])) {
-				 * AutoRoom.aire_off_calor.doClick();
-				 * AutoRoom.autoCalorLabel.setText("Apagado"); } }
-				 */
+				if(mainFrame.getComfort().getFanOn().getText().equals("Encendido")) {
+					int tempI = (int) TEMPINT.getTempC(true);
+					int consigna = mainFrame.getComfort().getConsignaSlider().getValue();
+					//Para invierno (Heater)
+					if(tempI < consigna) {
+						fan.low();//Encender
+					}
+					if(tempI > consigna) {
+						fan.high();//Apagar
+					}
+					//Para verano (Fan)
+					/*if(tempI > consigna) {
+						fan.low();//Encender
+					}
+					if(tempI < consigna) {
+						fan.high();//Apagar
+					}*/
+				}
 			}
 		};
-		timerConsigna.scheduleAtFixedRate(taskConsigna, 20, 60000 * 3);// Ver temperatura cada 2 minutos*/
+		timerConsigna.scheduleAtFixedRate(taskConsigna, 20, 60000 * 3);// Ver consigna cada 3 minutos*/
 		// Timer - 11
 		lux = new Timer();
 		luxTask = new TimerTask() {
 			
 			@Override
 			public void run() {
-				AutoRoom.mainFrame.getMenu().getLuxValue().setText(test.getLux() + " lx");
-				DATACLOUD.getDB().child("sensores").child("lux").setValueAsync(test.getLux());
+				
+				try {
+					USBDevices arduinoUno = new USBDevices();
+					AutoRoom.mainFrame.getSensorsFrame().getLuxValue().setText(arduinoUno.getLux() + " lx");
+					DATACLOUD.getDB().child("sensores").child("lux").setValueAsync(arduinoUno.getLux());
+					arduinoUno.getArduino().stop();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				
 			}
 		};
-		lux.scheduleAtFixedRate(luxTask, 21, 10000);// Ver los lux que hay*/
+		lux.scheduleAtFixedRate(luxTask, 21, 60000 * 1);// Ver los lux que hay*/
+		// Timer - 12
+		timerDHT11 = new Timer();
+		dht11Task = new TimerTask() {
+			
+			@Override
+			public void run() {
+				try {
+					new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP1)), 'D');
+				} catch (UnknownHostException e2) {
+					System.err.println(e2.getMessage());
+				}
+				
+			}
+		};
+		timerDHT11.scheduleAtFixedRate(dht11Task, 22, 60000 * 2);//Para obtener los valores del sensor DHT11*/
 
 	}
 

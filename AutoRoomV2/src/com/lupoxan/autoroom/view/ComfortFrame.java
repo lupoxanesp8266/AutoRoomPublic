@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -35,7 +34,6 @@ public class ComfortFrame extends JPanel {
 	private JButton backButton;
 	private JLabel autoHeatLabel, autoCoolLabel, consignaLabel, tempIntValue, tempExtValue;
 	private JButton heatOn, coolOn, heatOff, coolOff, fanOn, fanOff;
-	private JCheckBox autoHeat, autoCool;
 	private JSlider consignaSlider;
 
 	public ComfortFrame(ActionListeners action) {
@@ -62,7 +60,7 @@ public class ComfortFrame extends JPanel {
 		backButton.setPreferredSize(new Dimension(100, 50));
 		backButton.setBackground(new Color(255, 255, 255));
 		backButton.setForeground(new Color(0, 204, 0));
-		constraints.gridx = 4;
+		constraints.gridx = 5;
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
@@ -176,28 +174,6 @@ public class ComfortFrame extends JPanel {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(coolOff, constraints);
-		// Heat JCheckBox
-		autoHeat = new JCheckBox();
-		autoHeat.addChangeListener(new ChangeStateListeners("autoHeat"));
-		autoHeat.setText("Auto");
-		autoHeat.setForeground(new Color(204, 0, 0));
-		autoHeat.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		constraints.gridx = 0;
-		constraints.gridy = 2;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		this.add(autoHeat, constraints);
-		// Heat JCheckBox
-		autoCool = new JCheckBox();
-		autoCool.addChangeListener(new ChangeStateListeners("autoCool"));
-		autoCool.setText("Auto");
-		autoCool.setForeground(new Color(204, 0, 0));
-		autoCool.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		constraints.gridx = 1;
-		constraints.gridy = 2;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		this.add(autoCool, constraints);
 		// Fan Title label
 		JLabel fanTitle = new JLabel(" Ventilador ");
 		fanTitle.setOpaque(true);
@@ -399,22 +375,6 @@ public class ComfortFrame extends JPanel {
 
 	public void setCoolOff(JButton coolOff) {
 		this.coolOff = coolOff;
-	}
-
-	public JCheckBox getAutoHeat() {
-		return autoHeat;
-	}
-
-	public void setAutoHeat(JCheckBox autoHeat) {
-		this.autoHeat = autoHeat;
-	}
-
-	public JCheckBox getAutoCool() {
-		return autoCool;
-	}
-
-	public void setAutoCool(JCheckBox autoCool) {
-		this.autoCool = autoCool;
 	}
 
 	public JLabel getConsignaLabel() {

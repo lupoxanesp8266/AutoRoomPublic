@@ -112,7 +112,7 @@ public class MariaDB {
 	public boolean addLog(String message, Timestamp date) {
 		boolean resultado = false;
 		try {
-			PreparedStatement statement = MariaDB.dbConnection.prepareStatement("INSERT INTO user VALUES (null,?,?)");
+			PreparedStatement statement = MariaDB.dbConnection.prepareStatement("INSERT INTO logs VALUES (null,?,?)");
 			statement.setString(1, message);
 			statement.setTimestamp(2, date);
 
