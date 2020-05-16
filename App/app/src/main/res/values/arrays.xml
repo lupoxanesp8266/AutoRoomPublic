@@ -6,6 +6,12 @@
         <item>Cyan</item>
     </string-array>
 
+    <string-array name="rooms">
+        <item>@string/room</item>
+        <item>@string/living</item>
+        <item>@string/exterior</item>
+    </string-array>
+
     <string-array name="reply_values">
         <item>1</item>
         <item>2</item>

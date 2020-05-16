@@ -114,9 +114,27 @@ public class ActionListeners implements ActionListener {
 			user = null;
 			break;
 		case "lights":
-			mainframe.getLights().setVisible(true);
+			mainframe.getChooseRoom().setVisible(true);
 			mainframe.getMenu().setVisible(false);
 			mainframe.setTitle("Iluminación");
+			break;
+		case "room1":
+			mainframe.getLights().setVisible(true);
+			mainframe.getChooseRoom().setVisible(false);
+			mainframe.setTitle("Habitación 1");
+			break;
+		case "room2":
+			
+			break;
+		case "entry":
+			mainframe.getEntryFrame().setVisible(true);
+			mainframe.getChooseRoom().setVisible(false);
+			mainframe.setTitle("Entrada");
+			break;
+		case "livingRoom":
+			mainframe.getLivingRoomFrame().setVisible(true);
+			mainframe.getChooseRoom().setVisible(false);
+			mainframe.setTitle("Salita");
 			break;
 		case "register":
 			try {
@@ -248,13 +266,12 @@ public class ActionListeners implements ActionListener {
 			break;
 		case "otherOn":
 			try {
-				addr = InetAddress.getByName(F.prop(Constantes.IP1));
-				new WiFiDevices(addr, 'H');
+				new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP1)), 'H');
 				AutoRoom.DATACLOUD.getDB().child("iluminacion").child("luces").child("exterior").setValueAsync(true);
-				mainframe.getLights().getOtherOn().setBackground(new Color(0, 255, 0));
-				mainframe.getLights().getOtherOn().setText("Encendido");
-				mainframe.getLights().getOtherOff().setBackground(new Color(51, 51, 51));
-				mainframe.getLights().getOtherOff().setText("Apagar");
+				mainframe.getEntryFrame().getOtherOn().setBackground(new Color(0, 255, 0));
+				mainframe.getEntryFrame().getOtherOn().setText("Encendido");
+				mainframe.getEntryFrame().getOtherOff().setBackground(new Color(51, 51, 51));
+				mainframe.getEntryFrame().getOtherOff().setText("Apagar");
 			} catch (UnknownHostException e2) {
 				System.err.println(e2.getMessage());
 				LOCALBD.addError(e2.getMessage(), new Timestamp(new Date().getTime()));
@@ -262,16 +279,44 @@ public class ActionListeners implements ActionListener {
 			break;
 		case "otherOff":
 			try {
-				addr = InetAddress.getByName(F.prop(Constantes.IP1));
-				new WiFiDevices(addr, 'L');
+				new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP1)), 'L');
 				AutoRoom.DATACLOUD.getDB().child("iluminacion").child("luces").child("exterior").setValueAsync(false);
-				mainframe.getLights().getOtherOff().setBackground(new Color(255, 0, 0));
-				mainframe.getLights().getOtherOff().setText("Apagado");
-				mainframe.getLights().getOtherOn().setBackground(new Color(51, 51, 51));
-				mainframe.getLights().getOtherOn().setText("Encender");
+				mainframe.getEntryFrame().getOtherOff().setBackground(new Color(255, 0, 0));
+				mainframe.getEntryFrame().getOtherOff().setText("Apagado");
+				mainframe.getEntryFrame().getOtherOn().setBackground(new Color(51, 51, 51));
+				mainframe.getEntryFrame().getOtherOn().setText("Encender");
 			} catch (UnknownHostException e2) {
 				System.err.println(e2.getMessage());
 				LOCALBD.addError(e2.getMessage(), new Timestamp(new Date().getTime()));
+				System.out.println("Añadido error");
+			}
+			break;
+		case "salitaOn":
+			try {
+				new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP2)), 'H');
+				AutoRoom.DATACLOUD.getDB().child("iluminacion").child("luces").child("salita").setValueAsync(true);
+				mainframe.getLivingRoomFrame().getSalitaOn().setBackground(new Color(0, 255, 0));
+				mainframe.getLivingRoomFrame().getSalitaOn().setText("Encendido");
+				mainframe.getLivingRoomFrame().getSalitaOff().setBackground(new Color(51, 51, 51));
+				mainframe.getLivingRoomFrame().getSalitaOff().setText("Apagar");
+			} catch (UnknownHostException e2) {
+				System.err.println(e2.getMessage());
+				LOCALBD.addError(e2.getMessage(), new Timestamp(new Date().getTime()));
+				System.out.println("Añadido error");
+			}
+			break;
+		case "salitaOff":
+			try {
+				new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP2)), 'L');
+				AutoRoom.DATACLOUD.getDB().child("iluminacion").child("luces").child("salita").setValueAsync(false);
+				mainframe.getLivingRoomFrame().getSalitaOff().setBackground(new Color(255, 0, 0));
+				mainframe.getLivingRoomFrame().getSalitaOff().setText("Apagado");
+				mainframe.getLivingRoomFrame().getSalitaOn().setBackground(new Color(51, 51, 51));
+				mainframe.getLivingRoomFrame().getSalitaOn().setText("Encender");
+			} catch (UnknownHostException e2) {
+				System.err.println(e2.getMessage());
+				LOCALBD.addError(e2.getMessage(), new Timestamp(new Date().getTime()));
+				System.out.println("Añadido error");
 			}
 			break;
 		case "onAllLeds":
@@ -503,6 +548,12 @@ public class ActionListeners implements ActionListener {
 			mainframe.getSensorsFrame().setVisible(true);
 			mainframe.getMenu().setVisible(false);
 			break;
+		case "backLights":
+			mainframe.getChooseRoom().setVisible(true);
+			mainframe.getLivingRoomFrame().setVisible(false);
+			mainframe.getLights().setVisible(false);
+			mainframe.getEntryFrame().setVisible(false);
+			break;
 		case "back":
 			back();
 			break;
@@ -548,6 +599,7 @@ public class ActionListeners implements ActionListener {
 		mainframe.getGraphs().setVisible(false);
 		mainframe.getTools().setVisible(false);
 		mainframe.getSensorsFrame().setVisible(false);
+		mainframe.getChooseRoom().setVisible(false);
 		mainframe.setTitle("Menú");
 	}
 

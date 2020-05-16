@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">AutoRoom</string>
+    <string name="welcome">Bienvenido a AutoRoom. </string>
     <string name="iluminaci_n">Iluminación</string>
     <string name="general">General</string>
     <string name="mesa">Mesa</string>
@@ -77,7 +78,7 @@
     <string name="control">Control</string>
     <string name="fadingTime">Tiempo Fade</string>
     <string name="blinkTime">Tiempo parpadeo</string>
-    <string name="datos">Recuperando datos</string>
+    <string name="datos">Recuperando datos …</string>
     <string name="manual">Manual</string>
     <string name="automatic">Automático</string>
     <string name="voz">Control por voz</string>
@@ -98,8 +99,7 @@
     <string name="create_new_account">Crear nueva cuenta</string>
     <string name="lupoxan_2018">©2018 - LupoXan</string>
     <string name="acc">Accediendo</string>
-    <string name="dataa">Recuperando datos ...</string>
-    <string name="welcome">Bienvenido !</string>
+    <string name="dataa">Recuperando datos …</string>
     <string name="error_usuario_existente">Este usuario ya existe</string>
     <string name="error_registro_usuario">Error al registrar el usuario</string>
     <string name="error_inicio_usuario">Error al iniciar el usuario</string>
@@ -121,8 +121,12 @@
     <string name="notifications">Notificaciones</string>
     <string name="choose_notifications">Elegir notificaciones</string>
     <string name="modo">Modo Leds</string>
-    <string name="temperatures">Temperaturas</string>
-
+    <string name="temperatures">Temperaturas Habitación</string>
+    <string name="dht11LabelValue">Humedad y temperatura Exteriores</string>
+    <string name="humidity">Humedad</string>
+    <string name="heatIndex">Sensación Térmica</string>
+    <string name="living">Salita</string>
+    <string name="room">Habitación</string>
     <string name="title_activity_splash_screen" translatable="false">SplashScreen</string>
     <string name="dummy_content" translatable="false">from\nAutoRoom</string>
     <string name="hoy">Hoy</string>
@@ -132,4 +136,10 @@
     <string name="ventilador">Ventilador</string>
     <string name="ventilador_calefactor">Ventilador/Calefactor</string>
     <string name="exterior">Exterior</string>
+    <string name="choosing">Elige una habitación</string>
+    <string name="connected">Conectado</string>
+    <string name="disconnected">Desconectado</string>
+    <string name="caseta">Caseta</string>
+    <string name="weather">La temperatura exterior es %s grados y la humedad es %s</string>
+    <string name="sure">¿Estás seguro?</string>
 </resources>

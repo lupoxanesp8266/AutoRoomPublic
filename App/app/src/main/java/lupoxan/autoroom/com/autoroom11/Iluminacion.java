@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Iluminacion extends AppCompatActivity {
 
-    Switch general, cama, mesa, exterior;
+    Switch general, cama, mesa;
     CheckBox autoMesa, autoCama, autoGeneral;
 
     @Override
@@ -25,7 +25,7 @@ public class Iluminacion extends AppCompatActivity {
         general = findViewById(R.id.general_lamp);
         cama = findViewById(R.id.cama_lamp);
         mesa = findViewById(R.id.mesa_lamp);
-        exterior = findViewById(R.id.otherLamp);
+
 
         autoCama = findViewById(R.id.camaCheck);
         autoMesa = findViewById(R.id.mesaCheck);
@@ -37,7 +37,6 @@ public class Iluminacion extends AppCompatActivity {
                 general.setChecked((Boolean) dataSnapshot.child("general").getValue());
                 mesa.setChecked((Boolean) dataSnapshot.child("mesa").getValue());
                 cama.setChecked((Boolean) dataSnapshot.child("cama").getValue());
-                exterior.setChecked((Boolean) dataSnapshot.child("exterior").getValue());
             }
 
             @Override
@@ -58,17 +57,6 @@ public class Iluminacion extends AppCompatActivity {
 
             }
         });//*/
-
-        exterior.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    MainActivity.firebase.getDb().child("iluminacion").child("luces").child("exterior").setValue(true);
-                } else {
-                    MainActivity.firebase.getDb().child("iluminacion").child("luces").child("exterior").setValue(false);
-                }
-            }
-        });
 
         autoCama.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -143,5 +131,11 @@ public class Iluminacion extends AppCompatActivity {
             overridePendingTransition(R.anim.splash_in, R.anim.splash_out);
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.splash_in, R.anim.splash_out);
     }
 }

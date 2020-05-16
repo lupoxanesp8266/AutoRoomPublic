@@ -51,269 +51,7 @@
                     android:textStyle="bold"
                     android:typeface="serif" />
 
-                <TextView
-                    android:id="@+id/movimientoLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="@string/movimiento"
-                    android:textAlignment="textStart"
-                    android:textColor="#B730CF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
-
-                <ImageView
-                    android:id="@+id/valorMovement"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/todo"
-                    android:paddingStart="45dp"
-                    android:paddingEnd="45dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/home" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="@string/temperatures"
-                    android:textColor="#B730CF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2">
-
-                        <TextView
-                            android:id="@+id/textView28"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/tempExt"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
-
-                        <TextView
-                            android:id="@+id/textView30"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/gaugeExt"
-                            android:layout_alignTop="@+id/gaugeExt"
-                            android:layout_alignEnd="@+id/gaugeExt"
-                            android:layout_alignBottom="@+id/gaugeExt"
-                            android:layout_centerHorizontal="false"
-                            android:layout_marginStart="50dp"
-                            android:layout_marginTop="50dp"
-                            android:layout_marginEnd="50dp"
-                            android:layout_marginBottom="50dp"
-                            android:gravity="center"
-                            android:text="@string/init"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
-
-                        <pl.pawelkleczkowski.customgauge.CustomGauge
-                            android:id="@+id/gaugeExt"
-                            android:layout_width="match_parent"
-                            android:layout_height="140dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginBottom="0dp"
-                            app:gaugeDividerColor="@color/white"
-                            app:gaugeEndValue="60"
-                            app:gaugePointEndColor="@color/md_blue_grey_400"
-                            app:gaugePointStartColor="@color/md_blue_grey_400"
-                            app:gaugeStartAngle="270"
-                            app:gaugeStartValue="0"
-                            app:gaugeStrokeCap="ROUND"
-                            app:gaugeStrokeColor="@color/md_blue_grey_100"
-                            app:gaugeStrokeWidth="10dp"
-                            app:gaugeSweepAngle="360" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2">
-
-                        <TextView
-                            android:id="@+id/textView27"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/tempInt"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
-
-                        <TextView
-                            android:id="@+id/textView29"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@+id/gaugeInt"
-                            android:layout_alignTop="@+id/gaugeInt"
-                            android:layout_alignBottom="@+id/gaugeInt"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginStart="50dp"
-                            android:layout_marginTop="50dp"
-                            android:layout_marginEnd="50dp"
-                            android:layout_marginBottom="50dp"
-                            android:gravity="center"
-                            android:text="@string/init"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
-
-                        <pl.pawelkleczkowski.customgauge.CustomGauge
-                            android:id="@+id/gaugeInt"
-                            android:layout_width="match_parent"
-                            android:layout_height="140dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginTop="30dp"
-                            app:gaugeDividerStep="10"
-                            app:gaugeEndValue="60"
-                            app:gaugePointEndColor="@color/md_blue_grey_400"
-                            app:gaugePointStartColor="@color/md_blue_grey_400"
-                            app:gaugeStartAngle="270"
-                            app:gaugeStrokeCap="ROUND"
-                            app:gaugeStrokeColor="@color/md_blue_grey_100"
-                            app:gaugeStrokeWidth="10dp"
-                            app:gaugeSweepAngle="360" />
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="serif"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="@string/iluminaci_n"
-                    android:textAlignment="textStart"
-                    android:textColor="#B730CF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textView31"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/tempInt"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                    <TextView
-                        android:id="@+id/luxValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignStart="@+id/gaugeLux"
-                        android:layout_alignTop="@+id/gaugeLux"
-                        android:layout_alignBottom="@+id/gaugeLux"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="50dp"
-                        android:layout_marginTop="50dp"
-                        android:layout_marginEnd="50dp"
-                        android:layout_marginBottom="50dp"
-                        android:gravity="center"
-                        android:text="@string/init"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                    <pl.pawelkleczkowski.customgauge.CustomGauge
-                        android:id="@+id/gaugeLux"
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="30dp"
-                        app:gaugeDividerStep="10"
-                        app:gaugeEndValue="100"
-                        app:gaugePointEndColor="@color/md_blue_grey_400"
-                        app:gaugePointStartColor="@color/md_blue_grey_400"
-                        app:gaugeStartAngle="270"
-                        app:gaugeStrokeCap="ROUND"
-                        app:gaugeStrokeColor="@color/md_blue_grey_100"
-                        app:gaugeStrokeWidth="10dp"
-                        app:gaugeSweepAngle="360" />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="@string/connect"
-                    android:textAlignment="textStart"
-                    android:textColor="#B730CF"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
-
-                <TextView
-                    android:id="@+id/lastConx"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/backboton"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="@string/init"
-                    android:textAlignment="center"
-                    android:textColor="@color/negroMio"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
+                <include layout="@layout/sensors_frame"/>
 
                 <TextView
                     android:id="@+id/lightLabel"
@@ -347,20 +85,6 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/camaAutoLabel2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/init"
-                        android:textAlignment="center"
-                        android:textColor="@color/md_white_1000"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
                     <ImageView
                         android:id="@+id/valor_cama"
                         android:layout_width="wrap_content"
@@ -368,6 +92,21 @@
                         android:layout_weight="2"
                         android:contentDescription="@string/todo"
                         app:srcCompat="@drawable/ligths2" />
+
+                    <Switch
+                        android:id="@+id/autoCamaSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/backboton"
+                        android:clickable="false"
+                        android:fontFamily="serif"
+                        android:padding="8dp"
+                        android:text="@string/auto"
+                        android:textColor="@color/md_black_1000"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
 
                 </LinearLayout>
 
@@ -389,20 +128,6 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/valor_luces_auto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/init"
-                        android:textAlignment="center"
-                        android:textColor="@color/md_white_1000"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
                     <ImageView
                         android:id="@+id/valor_mesa"
                         android:layout_width="wrap_content"
@@ -410,6 +135,21 @@
                         android:layout_weight="2"
                         android:contentDescription="@string/todo"
                         app:srcCompat="@drawable/ligths2" />
+
+                    <Switch
+                        android:id="@+id/autoMesaSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/backboton"
+                        android:clickable="false"
+                        android:fontFamily="serif"
+                        android:padding="8dp"
+                        android:text="@string/auto"
+                        android:textColor="@color/md_black_1000"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
 
                 </LinearLayout>
 
@@ -430,20 +170,6 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/upAutoLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/init"
-                        android:textAlignment="center"
-                        android:textColor="@color/md_white_1000"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
                     <ImageView
                         android:id="@+id/valor_up"
                         android:layout_width="wrap_content"
@@ -451,6 +177,22 @@
                         android:layout_weight="2"
                         android:contentDescription="@string/todo"
                         app:srcCompat="@drawable/ligths2" />
+
+                    <Switch
+                        android:id="@+id/autoUpSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/backboton"
+                        android:clickable="false"
+                        android:fontFamily="serif"
+                        android:padding="8dp"
+                        android:text="@string/auto"
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
 
                 </LinearLayout>
 
@@ -565,7 +307,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/Blanco_seeek"
-                    android:enabled="false"
+                    android:clickable="false"
+                    android:enabled="true"
                     android:text="@string/pre"
                     android:textAlignment="center"
                     android:textColor="@color/negroMio"

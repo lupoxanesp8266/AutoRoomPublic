@@ -27,6 +27,8 @@ import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -252,7 +254,7 @@ public class Firebase {
 									AutoRoom.mainFrame.getMenu().getHourLabel().getText() + " -- "
 											+ AutoRoom.mainFrame.getMenu().getDateLabel().getText(),
 									F.prop(Constantes.MOVEUPPER), F.prop(Constantes.INTRUDER), "intruso",
-									"com.lupoxan.autoRoom.movement");
+									"com.lupoxan.autoRoom.movement", AndroidConfig.Priority.HIGH);
 						}
 					}
 
@@ -270,13 +272,13 @@ public class Firebase {
 
 				if (Integer.parseInt(temperaturaExterior[0]) >= 30) {
 					sendNotification(TEMPERATURAS, "Temperatura: " + ds.getValue().toString(), "Temperatura exterior",
-							"Temperatura", "logo144_round", "com.lupoxan.autoRoom.temp_ext");
+							"Temperatura", "logo144_round", "com.lupoxan.autoRoom.temp_ext", AndroidConfig.Priority.NORMAL);
 
 				} else {
 					if (Integer.parseInt(temperaturaExterior[0]) <= 10) {
 						sendNotification(TEMPERATURAS, "Temperatura: " + ds.getValue().toString(),
 								"Temperatura exterior", "Temperatura", "logo144_round",
-								"com.lupoxan.autoRoom.temp_ext");
+								"com.lupoxan.autoRoom.temp_ext", AndroidConfig.Priority.NORMAL);
 					}
 				}
 			}
@@ -296,12 +298,12 @@ public class Firebase {
 
 				if (Integer.parseInt(temperaturaInterior[0]) >= 30) {
 					sendNotification(TEMPERATURAS, "Temperatura: " + ds.getValue().toString(), "Temperatura interior",
-							"Temperatura", "logo144", "com.lupoxan.autoRoom.temp_int");
+							"Temperatura", "logo144", "com.lupoxan.autoRoom.temp_int", AndroidConfig.Priority.NORMAL);
 
 				} else {
 					if (Integer.parseInt(temperaturaInterior[0]) <= 10) {
 						sendNotification(TEMPERATURAS, "Temperatura: " + ds.getValue().toString(),
-								"Temperatura interior", "Temperatura", "logo144", "com.lupoxan.autoRoom.temp_int");
+								"Temperatura interior", "Temperatura", "logo144", "com.lupoxan.autoRoom.temp_int", AndroidConfig.Priority.NORMAL);
 					}
 				}
 			}
@@ -378,9 +380,54 @@ public class Firebase {
 			public void onDataChange(DataSnapshot snapshot) {
 				boolean statusOther = (boolean) snapshot.getValue();
 				if (statusOther) {
-					AutoRoom.mainFrame.getLights().getOtherOn().doClick();
+					AutoRoom.mainFrame.getEntryFrame().getOtherOn().doClick();
 				} else {
-					AutoRoom.mainFrame.getLights().getOtherOff().doClick();
+					AutoRoom.mainFrame.getEntryFrame().getOtherOff().doClick();
+				}
+				
+			}
+			
+			@Override
+			public void onCancelled(DatabaseError error) {
+				System.out.println(error.getMessage());
+				
+			}
+		});//*/
+		this.DB.child("iluminacion").child("luces").child("salita").addValueEventListener(new ValueEventListener() {
+			
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				boolean statusOther = (boolean) snapshot.getValue();
+				if (statusOther) {
+					AutoRoom.mainFrame.getLivingRoomFrame().getSalitaOn().doClick();
+				} else {
+					AutoRoom.mainFrame.getLivingRoomFrame().getSalitaOff().doClick();
+				}
+				
+			}
+			
+			@Override
+			public void onCancelled(DatabaseError error) {
+				System.out.println(error.getMessage());
+				
+			}
+		});//*/
+		this.DB.child("iluminacion").child("luces").child("caseta").addValueEventListener(new ValueEventListener() {
+			
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				if((Boolean) snapshot.getValue()) {
+					try {
+						new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP3)), 'H');
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					}
+				}else {
+					try {
+						new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP3)), 'L');
+					} catch (UnknownHostException e2) {
+						e2.printStackTrace();
+					}
 				}
 				
 			}
@@ -757,8 +804,7 @@ public class Firebase {
 
 						@Override
 						public void onCancelled(DatabaseError de) {
-							JOptionPane.showMessageDialog(null, "Ha habido un error recuperando los datos.", "Error",
-									1);
+							JOptionPane.showMessageDialog(null, "Ha habido un error recuperando los datos.", "Error", 1);
 						}
 
 					});// */
@@ -778,7 +824,6 @@ public class Firebase {
 					for (int i = 0; i <= GraphsFrame.fechasData.getItemCount(); i++) {
 						GraphsFrame.fechasData.remove(i);
 					}
-
 				}
 				for (DataSnapshot data : ds.getChildren()) {
 					GraphsFrame.fechasData.addItem(data.getKey());
@@ -788,6 +833,13 @@ public class Firebase {
 				GraphsFrame.fechasData.removeItem("temp_ext");
 				GraphsFrame.fechasData.removeItem("temp_int");
 				GraphsFrame.fechasData.removeItem("PIR");
+				
+				GraphsFrame.fechasData.removeItem("exterior");
+				GraphsFrame.fechasData.removeItem("humedad");
+				GraphsFrame.fechasData.removeItem("lux");
+				GraphsFrame.fechasData.removeItem("sensTermica");
+				GraphsFrame.fechasData.removeItem("tempDht11");
+				
 				GraphsFrame.fechasData.setSelectedItem(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
 
 			}
@@ -817,13 +869,15 @@ public class Firebase {
 	 * @param title Título de la notificación
 	 * @param tag   Etiqueta de la notificación
 	 * @param icon  Icono en la barra de notificaciones
+	 * @param channel Canal de notificaciones
+	 * @param Priority prioridad de la notificación
 	 */
 	protected void sendNotification(List<String> token, String body, String title, String tag, String icon,
-			String channel) {
+			String channel, AndroidConfig.Priority priority) {
 		try {
 			MulticastMessage message = MulticastMessage.builder()
 					.setAndroidConfig(AndroidConfig.builder().setTtl(Constantes.TTL)
-							.setPriority(AndroidConfig.Priority.HIGH)
+							.setPriority(priority)
 							.setNotification(AndroidNotification.builder().setTitle(title).setBody(body).setTag(tag)
 									.setSound(F.prop(Constantes.TONE)).setChannelId(channel)
 									.setTitleLocalizationKey(F.prop(Constantes.TITULO)).setIcon(icon).build())

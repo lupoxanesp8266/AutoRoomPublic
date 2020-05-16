@@ -88,7 +88,9 @@ public class Constantes {
     protected final static String HIGHUPPER = "highUpper";
     protected final static String TOKENSUSER = "tokens";
     protected final static String PORT = "puertoSocket";
-    public static final String IP1 = "ip1";
+    public final static String IP1 = "ip1Exterior";
+    public final static String IP2 = "ip2Salita";
+    public final static String IP3 = "ip3Caseta";
     
     protected final static int TTL = 60000 * 60;//1Hora
     public final static int WAIT = 250;
@@ -120,6 +122,7 @@ public class Constantes {
     
     protected final static PinPullResistance RUP = PinPullResistance.PULL_UP;
     protected final static PinPullResistance RDOWN = PinPullResistance.PULL_DOWN;
+	
 	
 	
 	

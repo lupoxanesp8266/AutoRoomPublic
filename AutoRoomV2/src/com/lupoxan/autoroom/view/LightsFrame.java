@@ -30,7 +30,7 @@ public class LightsFrame extends JPanel {
 	private JButton backButton;
 	private JCheckBox autoCama, autoMesa, autoUp;
 	private JLabel autoCamaLabel, autoMesaLabel, autoUpLabel;
-	private JButton mesaOn, camaOn, generalOn, mesaOff, camaOff, generalOff, otherOn, otherOff;
+	private JButton mesaOn, camaOn, generalOn, mesaOff, camaOff, generalOff;
 
 	public LightsFrame(ActionListeners action) {
 		super();
@@ -50,7 +50,7 @@ public class LightsFrame extends JPanel {
 		this.setBounds(50, 50, 200, 200);
 		// Back to menu button
 		backButton = new JButton("Menú");
-		backButton.setActionCommand("back");
+		backButton.setActionCommand("backLights");
 		backButton.addActionListener(action);
 		backButton.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 		backButton.setPreferredSize(new Dimension(100, 50));
@@ -282,32 +282,7 @@ public class LightsFrame extends JPanel {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(generalOff, constraints);
-		// Other On Button
-		otherOn = new JButton("Encender");
-		otherOn.setActionCommand("otherOn");
-		otherOn.addActionListener(action);
-		otherOn.setBackground(new Color(51, 51, 51));
-		otherOn.setForeground(new Color(187, 187, 187));
-		otherOn.setFont(new Font(Font.SERIF, Font.BOLD, 18));
-		otherOn.setPreferredSize(new Dimension(150, 50));
-		constraints.gridx = 3;
-		constraints.gridy = 4;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		this.add(otherOn, constraints);
-		// Other Off Button
-		otherOff = new JButton("Apagar");
-		otherOff.setActionCommand("otherOff");
-		otherOff.addActionListener(action);
-		otherOff.setBackground(new Color(255, 0, 0));
-		otherOff.setForeground(new Color(187, 187, 187));
-		otherOff.setFont(new Font(Font.SERIF, Font.BOLD, 18));
-		otherOff.setPreferredSize(new Dimension(150, 50));
-		constraints.gridx = 3;
-		constraints.gridy = 5;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		this.add(otherOff, constraints);
+		
 	}
 
 	public JCheckBox getAutoCama() {
@@ -406,19 +381,5 @@ public class LightsFrame extends JPanel {
 		this.generalOff = generalOff;
 	}
 
-	public JButton getOtherOn() {
-		return otherOn;
-	}
-
-	public void setOtherOn(JButton otherOn) {
-		this.otherOn = otherOn;
-	}
-
-	public JButton getOtherOff() {
-		return otherOff;
-	}
-
-	public void setOtherOff(JButton otherOff) {
-		this.otherOff = otherOff;
-	}
+	
 }

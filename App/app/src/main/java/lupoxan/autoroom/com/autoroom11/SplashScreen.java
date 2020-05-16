@@ -5,7 +5,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Locale;
 
 /**
  * @author lupo.xan
@@ -24,9 +30,6 @@ public class SplashScreen extends AppCompatActivity {
         super.onStart();
 
         mAuth.addAuthStateListener(firebaseAuthListener);
-
-        /*MessagingService messagingService = new MessagingService();
-        messagingService.setNotificationChannel("com.lupoxan.autoroom.welcome");*/
     }
 
     @Override
@@ -60,7 +63,6 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         if (firebaseAuthListener != null) {
             mAuth.removeAuthStateListener(firebaseAuthListener);
         }

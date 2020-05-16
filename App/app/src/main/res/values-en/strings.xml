@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="movimiento">Movement</string>
+    <string name="welcome">Welcome to AutoRoom. </string>
     <string name="iluminaci_n">Ilumination</string>
     <string name="general">General</string>
     <string name="mesa">Table</string>
@@ -69,14 +70,14 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="climatizaci_n">Comfort</string>
     <string name="seguro">Are you sure?</string>
-    <string name="aceptar">Ok</string>
+    <string name="aceptar">OK</string>
     <string name="cancelar">Cancel</string>
     <string name="cerrarSession">Log out</string>
     <string name="coolMode">Cool Mode</string>
     <string name="control">Control</string>
     <string name="fadingTime">Timer Fade</string>
     <string name="blinkTime">Timer Blink</string>
-    <string name="datos">Retrieving data</string>
+    <string name="datos">Retrieving data …</string>
     <string name="manual">Manual</string>
     <string name="automatic">Automatic</string>
     <string name="voz">Voice Control</string>
@@ -97,8 +98,7 @@
     <string name="create_new_account">Create new account</string>
     <string name="log_in">Log In</string>
     <string name="acc">Accesing</string>
-    <string name="dataa">Retrieving data...</string>
-    <string name="welcome">Welcome !</string>
+    <string name="dataa">Retrieving data …</string>
     <string name="usuario_registrado">User logged</string>
     <string name="registrando">Registering</string>
     <string name="error_usuario_existente">User already exists</string>
@@ -119,7 +119,10 @@
     <string name="notifications">Notifications</string>
     <string name="choose_notifications">Choose notifications</string>
     <string name="modo">Leds Mode</string>
-    <string name="temperatures">Temperatures</string>
+    <string name="temperatures">Room Temperatures</string>
+    <string name="dht11LabelValue">Outside Humidity and Temperatures</string>
+    <string name="humidity">Humidity</string>
+    <string name="heatIndex">Heat Index</string>
     <string name="hoy">Today</string>
     <string name="date_picker">Date Picker</string>
     <string name="enabledAlarm">Enabled</string>
@@ -127,4 +130,13 @@
     <string name="ventilador">Fan</string>
     <string name="ventilador_calefactor">Fan/Heater</string>
     <string name="exterior">Outside</string>
+    <string name="choosing">Choose a room</string>
+    <string name="living">Living Room</string>
+    <string name="room">Room</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="caseta">Stand</string>
+    <string name="weather">Outside temperature is %s degrees and humidity is %s</string>
+    <string name="sure">Are you sure?</string>
+
 </resources>

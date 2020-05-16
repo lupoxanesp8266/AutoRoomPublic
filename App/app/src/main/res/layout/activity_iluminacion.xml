@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backligthsactivity"
+    android:background="@drawable/background"
     tools:context=".Iluminacion">
 
     <ScrollView
@@ -155,19 +155,6 @@
                     app:layout_constraintTop_toTopOf="@+id/general_lamp" />
 
             </LinearLayout>
-
-            <Switch
-                android:id="@+id/otherLamp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="@drawable/menosbutton"
-                android:text="@string/exterior"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:typeface="serif"
-                android:padding="15dp"
-                android:textColor="@color/colorPrimaryDark" />
 
         </LinearLayout>
     </ScrollView>

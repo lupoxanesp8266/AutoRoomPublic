@@ -112,7 +112,7 @@
                     app:gaugePointStartColor="@color/md_blue_grey_800"
                     app:gaugeStartAngle="270"
                     app:gaugeStartValue="0"
-                    app:gaugeStrokeCap="SQUARE"
+                    app:gaugeStrokeCap="ROUND"
                     app:gaugeStrokeColor="@color/md_blue_grey_100"
                     app:gaugeStrokeWidth="10dp"
                     app:gaugeSweepAngle="360" />
@@ -178,7 +178,7 @@
                     app:gaugePointStartColor="@color/md_blue_grey_800"
                     app:gaugeStartAngle="270"
                     app:gaugeStartValue="0"
-                    app:gaugeStrokeCap="SQUARE"
+                    app:gaugeStrokeCap="ROUND"
                     app:gaugeStrokeColor="@color/md_blue_grey_100"
                     app:gaugeStrokeWidth="10dp"
                     app:gaugeSweepAngle="360" />
@@ -251,7 +251,7 @@
                     app:gaugePointStartColor="@color/md_red_700"
                     app:gaugeStartAngle="270"
                     app:gaugeStartValue="0"
-                    app:gaugeStrokeCap="SQUARE"
+                    app:gaugeStrokeCap="ROUND"
                     app:gaugeStrokeColor="@color/md_blue_grey_100"
                     app:gaugeStrokeWidth="10dp"
                     app:gaugeSweepAngle="360" />
@@ -317,7 +317,7 @@
                     app:gaugePointStartColor="@color/md_green_700"
                     app:gaugeStartAngle="270"
                     app:gaugeStartValue="0"
-                    app:gaugeStrokeCap="SQUARE"
+                    app:gaugeStrokeCap="ROUND"
                     app:gaugeStrokeColor="@color/md_blue_grey_100"
                     app:gaugeStrokeWidth="10dp"
                     app:gaugeSweepAngle="360" />
@@ -389,7 +389,7 @@
                 app:gaugePointStartColor="@color/backSystem"
                 app:gaugeStartAngle="270"
                 app:gaugeStartValue="0"
-                app:gaugeStrokeCap="SQUARE"
+                app:gaugeStrokeCap="ROUND"
                 app:gaugeStrokeColor="@color/md_blue_grey_100"
                 app:gaugeStrokeWidth="10dp"
                 app:gaugeSweepAngle="360" />

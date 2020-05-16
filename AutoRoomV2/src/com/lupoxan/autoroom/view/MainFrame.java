@@ -33,6 +33,9 @@ public class MainFrame extends JFrame {
 	private FirebaseFrame firebaseFrame;
 	private MariaDBFrame localFrame;
 	private SensorsFrame sensorsFrame;
+	private ChooseRoom chooseRoom;
+	private EntryFrame entryFrame;
+	private LivingRoomFrame livingRoomFrame;
 	private JPanel container;
 	public static LocalUser user;
 
@@ -91,6 +94,15 @@ public class MainFrame extends JFrame {
 
 		sensorsFrame = new SensorsFrame(action);
 		container.add(sensorsFrame);
+		
+		chooseRoom = new ChooseRoom(action);
+		container.add(chooseRoom);
+		
+		entryFrame = new EntryFrame(action);
+		container.add(entryFrame);
+		
+		livingRoomFrame = new LivingRoomFrame(action);
+		container.add(livingRoomFrame);
 
 		login.setVisible(true);
 
@@ -175,5 +187,31 @@ public class MainFrame extends JFrame {
 	public void setSensorsFrame(SensorsFrame sensorsFrame) {
 		this.sensorsFrame = sensorsFrame;
 	}
+
+	public ChooseRoom getChooseRoom() {
+		return chooseRoom;
+	}
+
+	public void setChooseRoom(ChooseRoom chooseRoom) {
+		this.chooseRoom = chooseRoom;
+	}
+
+	public EntryFrame getEntryFrame() {
+		return entryFrame;
+	}
+
+	public void setEntryFrame(EntryFrame entryFrame) {
+		this.entryFrame = entryFrame;
+	}
+
+	public LivingRoomFrame getLivingRoomFrame() {
+		return livingRoomFrame;
+	}
+
+	public void setLivingRoomFrame(LivingRoomFrame livingRoomFrame) {
+		this.livingRoomFrame = livingRoomFrame;
+	}
+	
+	
 
 }

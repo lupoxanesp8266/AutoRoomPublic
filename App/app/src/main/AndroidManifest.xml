@@ -11,11 +11,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <!-- Used by Android Auto -->
+        <activity
+            android:name=".StandActivity"
+            android:label="@string/caseta"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".EntradaActivity"
+            android:label="@string/exterior"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".SalitaActivity"
+            android:label="@string/living"
+            android:parentActivityName=".MainActivity" /> <!-- Used by Android Auto -->
         <activity
             android:name=".MainActivity"
             android:theme="@style/MainTheme" />
-
         <activity
             android:name=".SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -34,7 +44,7 @@
         <activity android:name=".LogIn" />
         <activity
             android:name=".Iluminacion"
-            android:label="@string/iluminacion"
+            android:label="@string/room"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Comfort"
@@ -65,10 +75,10 @@
             android:name=".PreferencesActivity"
             android:label="@string/sistema"
             android:parentActivityName=".MainActivity" />
+
         <meta-data
             android:name="com.google.android.gms.car.notification.SmallIcon"
             android:resource="@drawable/logo144_round" />
-
         <meta-data
             android:name="com.google.android.gms.car.application"
             android:resource="@xml/automotive_app_desc" />
@@ -102,8 +112,8 @@
     <uses-feature
         android:name="android.hardware.type.automotive"
         android:required="true" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>
