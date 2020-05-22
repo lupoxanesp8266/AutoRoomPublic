@@ -338,7 +338,7 @@ public class Firebase {
 				System.err.println(de.getMessage());
 			}
 
-		});
+		});//*/
 		this.DB.child("iluminacion").child("luces").child("cama").addValueEventListener(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot ds) {
@@ -355,7 +355,7 @@ public class Firebase {
 				System.err.println(de.getMessage());
 			}
 
-		});
+		});//*/
 		this.DB.child("iluminacion").child("luces").child("general").addValueEventListener(new ValueEventListener() {
 
 			@Override
@@ -373,7 +373,7 @@ public class Firebase {
 				System.err.println(de.getMessage());
 			}
 
-		});
+		});//*/
 		this.DB.child("iluminacion").child("luces").child("exterior").addValueEventListener(new ValueEventListener() {
 			
 			@Override
