@@ -46,7 +46,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @since 05/08/2019
  * @author lupo.xan
- * @version 2.1
+ * @version 2.2
  */
 public class Firebase {
 
@@ -101,14 +101,15 @@ public class Firebase {
 	 */
 	public Firebase() {
 		FileInputStream serviceAccount = null;
-		
+
 		try {
-			serviceAccount = new FileInputStream("/home/pi/autoRoom/Scripts/myautoroom-firebase-adminsdk-fh1iu-28fe4530af.json");
+			serviceAccount = new FileInputStream(
+					"/home/pi/autoRoom/Scripts/myautoroom-firebase-adminsdk-fh1iu-28fe4530af.json");
 			FirebaseOptions optionsFirebase = new FirebaseOptions.Builder()
 					.setCredentials(GoogleCredentials.fromStream(serviceAccount))
 					.setDatabaseUrl("https://myautoroom.firebaseio.com/").build();
 			FirebaseApp.initializeApp(optionsFirebase);
-			
+
 			this.DB = FirebaseDatabase.getInstance().getReference();
 		} catch (FileNotFoundException ex) {
 			System.err.println(ex.getMessage());
@@ -246,7 +247,8 @@ public class Firebase {
 	 */
 	protected void notifications() {
 		rellenarToken();
-		this.DB.child(F.prop(Constantes.SENSORS)).child(F.prop(Constantes.MOVELOWER)).addValueEventListener(new ValueEventListener() {
+		this.DB.child(F.prop(Constantes.SENSORS)).child(F.prop(Constantes.MOVELOWER))
+				.addValueEventListener(new ValueEventListener() {
 					@Override
 					public void onDataChange(DataSnapshot ds) {
 						if (ds.getValue().toString().equals(F.prop(Constantes.HIGHUPPER)) && Firebase.intruderAlarm) {
@@ -272,13 +274,14 @@ public class Firebase {
 
 				if (Integer.parseInt(temperaturaExterior[0]) >= 30) {
 					sendNotification(TEMPERATURAS, "Temperatura: " + ds.getValue().toString(), "Temperatura exterior",
-							"Temperatura", "logo144_round", "com.lupoxan.autoRoom.temp_ext", AndroidConfig.Priority.NORMAL);
+							"Temperatura", "logo144_round", "com.lupoxan.autoRoom.temp_ext",
+							AndroidConfig.Priority.NORMAL);
 
 				} else {
 					if (Integer.parseInt(temperaturaExterior[0]) <= 10) {
 						sendNotification(TEMPERATURAS, "Temperatura: " + ds.getValue().toString(),
-								"Temperatura exterior", "Temperatura", "logo144_round",
-								"com.lupoxan.autoRoom.temp_ext", AndroidConfig.Priority.NORMAL);
+								"Temperatura exterior", "Temperatura", "logo144_round", "com.lupoxan.autoRoom.temp_ext",
+								AndroidConfig.Priority.NORMAL);
 					}
 				}
 			}
@@ -303,7 +306,8 @@ public class Firebase {
 				} else {
 					if (Integer.parseInt(temperaturaInterior[0]) <= 10) {
 						sendNotification(TEMPERATURAS, "Temperatura: " + ds.getValue().toString(),
-								"Temperatura interior", "Temperatura", "logo144", "com.lupoxan.autoRoom.temp_int", AndroidConfig.Priority.NORMAL);
+								"Temperatura interior", "Temperatura", "logo144", "com.lupoxan.autoRoom.temp_int",
+								AndroidConfig.Priority.NORMAL);
 					}
 				}
 			}
@@ -338,7 +342,7 @@ public class Firebase {
 				System.err.println(de.getMessage());
 			}
 
-		});//*/
+		});// */
 		this.DB.child("iluminacion").child("luces").child("cama").addValueEventListener(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot ds) {
@@ -355,7 +359,7 @@ public class Firebase {
 				System.err.println(de.getMessage());
 			}
 
-		});//*/
+		});// */
 		this.DB.child("iluminacion").child("luces").child("general").addValueEventListener(new ValueEventListener() {
 
 			@Override
@@ -373,9 +377,9 @@ public class Firebase {
 				System.err.println(de.getMessage());
 			}
 
-		});//*/
+		});// */
 		this.DB.child("iluminacion").child("luces").child("exterior").addValueEventListener(new ValueEventListener() {
-			
+
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
 				boolean statusOther = (boolean) snapshot.getValue();
@@ -384,17 +388,17 @@ public class Firebase {
 				} else {
 					AutoRoom.mainFrame.getEntryFrame().getOtherOff().doClick();
 				}
-				
+
 			}
-			
+
 			@Override
 			public void onCancelled(DatabaseError error) {
 				System.out.println(error.getMessage());
-				
+
 			}
-		});//*/
+		});// */
 		this.DB.child("iluminacion").child("luces").child("salita").addValueEventListener(new ValueEventListener() {
-			
+
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
 				boolean statusOther = (boolean) snapshot.getValue();
@@ -403,41 +407,42 @@ public class Firebase {
 				} else {
 					AutoRoom.mainFrame.getLivingRoomFrame().getSalitaOff().doClick();
 				}
-				
+
 			}
-			
+
 			@Override
 			public void onCancelled(DatabaseError error) {
 				System.out.println(error.getMessage());
-				
+
 			}
-		});//*/
+		});// */
 		this.DB.child("iluminacion").child("luces").child("caseta").addValueEventListener(new ValueEventListener() {
-			
+
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
-				if((Boolean) snapshot.getValue()) {
+				if ((Boolean) snapshot.getValue()) {
 					try {
 						new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP3)), 'H');
+						new ApagadoLuces(F.prop(Constantes.IP3), "iluminacion/luces/caseta");
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					}
-				}else {
+				} else {
 					try {
 						new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP3)), 'L');
 					} catch (UnknownHostException e2) {
 						e2.printStackTrace();
 					}
 				}
-				
+
 			}
-			
+
 			@Override
 			public void onCancelled(DatabaseError error) {
 				// TODO Auto-generated method stub
-				
+
 			}
-		});//*/
+		});// */
 
 		this.DB.child("iluminacion").child("auto").child("mesa").addValueEventListener(new ValueEventListener() {
 
@@ -585,22 +590,22 @@ public class Firebase {
 			@Override
 			public void onDataChange(DataSnapshot ds) {
 				AutoRoom.mainFrame.getLeds().getLedsAutoBox().setSelected((boolean) ds.getValue());
-				
-				if((boolean) ds.getValue()) {
+
+				if ((boolean) ds.getValue()) {
 					ActionListeners.controlLeds.setValores(AutoRoom.mainFrame.getLeds().getValores());
 					ActionListeners.controlLeds.setMode(3);
 					ActionListeners.controlLeds.setTime(null);
 					ActionListeners.controlLeds.setCheckBox(AutoRoom.mainFrame.getLeds().getLedsAutoBox());
-					
+
 					AutoRoom.mainFrame.getLeds().getOnAll().setEnabled(false);
 					AutoRoom.mainFrame.getLeds().getOffAll().setEnabled(false);
 					AutoRoom.mainFrame.getLeds().getBlinkBox().setEnabled(false);
 					AutoRoom.mainFrame.getLeds().getFadeBox().setEnabled(false);
 					AutoRoom.mainFrame.getLeds().getFadeSlider().setEnabled(false);
 					AutoRoom.mainFrame.getLeds().getBlinkSlider().setEnabled(false);
-				}else {
+				} else {
 					ActionListeners.controlLeds.setMode(0);
-					
+
 					AutoRoom.mainFrame.getLeds().getOnAll().setEnabled(true);
 					AutoRoom.mainFrame.getLeds().getOffAll().setEnabled(true);
 					AutoRoom.mainFrame.getLeds().getBlinkBox().setEnabled(true);
@@ -621,7 +626,7 @@ public class Firebase {
 			@Override
 			public void onDataChange(DataSnapshot ds) {
 				AutoRoom.mainFrame.getLeds().getFadeBox().setSelected((boolean) ds.getValue());
-				
+
 				if (AutoRoom.mainFrame.getLeds().getFadeBox().isSelected()) {
 
 					ActionListeners.controlLeds.setValores(AutoRoom.mainFrame.getLeds().getValores());
@@ -658,7 +663,7 @@ public class Firebase {
 			@Override
 			public void onDataChange(DataSnapshot ds) {
 				AutoRoom.mainFrame.getLeds().getBlinkBox().setSelected((boolean) ds.getValue());
-				
+
 				if (AutoRoom.mainFrame.getLeds().getBlinkBox().isSelected()) {
 
 					ActionListeners.controlLeds.setValores(AutoRoom.mainFrame.getLeds().getValores());
@@ -730,33 +735,62 @@ public class Firebase {
 
 			@Override
 			public void onDataChange(DataSnapshot ds) {
-				AutoRoom.mainFrame.getComfort().getConsignaSlider().setValue(Integer.parseInt(ds.getValue().toString()));
-				AutoRoom.mainFrame.getComfort().getConsignaLabel().setText(" " + Integer.parseInt(ds.getValue().toString()) + " ºC ");
+				AutoRoom.mainFrame.getComfort().getConsignaSlider()
+						.setValue(Integer.parseInt(ds.getValue().toString()));
+				AutoRoom.mainFrame.getComfort().getConsignaLabel()
+						.setText(" " + Integer.parseInt(ds.getValue().toString()) + " ºC ");
 			}
 
 			@Override
 			public void onCancelled(DatabaseError de) {
 
 			}
-		});//*/
+		});// */
 		this.DB.child("comfort").child("fan").addValueEventListener(new ValueEventListener() {
-			
+
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
-				if((boolean) snapshot.getValue()) {
+				if ((boolean) snapshot.getValue()) {
 					AutoRoom.mainFrame.getComfort().getFanOn().doClick();
-				}else{
+				} else {
 					AutoRoom.mainFrame.getComfort().getFanOff().doClick();
 				}
-				
+
 			}
-			
+
 			@Override
 			public void onCancelled(DatabaseError error) {
-				// TODO Auto-generated method stub
-				
+
 			}
-		});//*/
+		});// */
+		this.DB.child("comfort").child("modo").addValueEventListener(new ValueEventListener() {
+
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				switch (snapshot.getValue().toString()) {
+				case "Apagado":
+					if (ActionListeners.comfortMode == 1) {// Frio
+						AutoRoom.mainFrame.getComfort().getCoolOff().doClick();
+					}
+					if (ActionListeners.comfortMode == 2) {// Calor
+						AutoRoom.mainFrame.getComfort().getHeatOff().doClick();
+					}
+					break;
+				case "Frio":
+					AutoRoom.mainFrame.getComfort().getCoolOn().doClick();
+					break;
+				case "Calor":
+					AutoRoom.mainFrame.getComfort().getHeatOn().doClick();
+					break;
+				}
+
+			}
+
+			@Override
+			public void onCancelled(DatabaseError error) {
+
+			}
+		});// */
 
 	}
 
@@ -804,7 +838,8 @@ public class Firebase {
 
 						@Override
 						public void onCancelled(DatabaseError de) {
-							JOptionPane.showMessageDialog(null, "Ha habido un error recuperando los datos.", "Error", 1);
+							JOptionPane.showMessageDialog(null, "Ha habido un error recuperando los datos.", "Error",
+									1);
 						}
 
 					});// */
@@ -833,13 +868,13 @@ public class Firebase {
 				GraphsFrame.fechasData.removeItem("temp_ext");
 				GraphsFrame.fechasData.removeItem("temp_int");
 				GraphsFrame.fechasData.removeItem("PIR");
-				
+
 				GraphsFrame.fechasData.removeItem("exterior");
 				GraphsFrame.fechasData.removeItem("humedad");
 				GraphsFrame.fechasData.removeItem("lux");
 				GraphsFrame.fechasData.removeItem("sensTermica");
 				GraphsFrame.fechasData.removeItem("tempDht11");
-				
+
 				GraphsFrame.fechasData.setSelectedItem(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
 
 			}
@@ -864,20 +899,19 @@ public class Firebase {
 	/**
 	 * Método para enviar las notificaciones a los clientes
 	 *
-	 * @param token ArrayList con todos los Tokens de los clientes
-	 * @param body  Cuerpo del mensaje de la notificación
-	 * @param title Título de la notificación
-	 * @param tag   Etiqueta de la notificación
-	 * @param icon  Icono en la barra de notificaciones
-	 * @param channel Canal de notificaciones
+	 * @param token    ArrayList con todos los Tokens de los clientes
+	 * @param body     Cuerpo del mensaje de la notificación
+	 * @param title    Título de la notificación
+	 * @param tag      Etiqueta de la notificación
+	 * @param icon     Icono en la barra de notificaciones
+	 * @param channel  Canal de notificaciones
 	 * @param Priority prioridad de la notificación
 	 */
 	protected void sendNotification(List<String> token, String body, String title, String tag, String icon,
 			String channel, AndroidConfig.Priority priority) {
 		try {
 			MulticastMessage message = MulticastMessage.builder()
-					.setAndroidConfig(AndroidConfig.builder().setTtl(Constantes.TTL)
-							.setPriority(priority)
+					.setAndroidConfig(AndroidConfig.builder().setTtl(Constantes.TTL).setPriority(priority)
 							.setNotification(AndroidNotification.builder().setTitle(title).setBody(body).setTag(tag)
 									.setSound(F.prop(Constantes.TONE)).setChannelId(channel)
 									.setTitleLocalizationKey(F.prop(Constantes.TITULO)).setIcon(icon).build())

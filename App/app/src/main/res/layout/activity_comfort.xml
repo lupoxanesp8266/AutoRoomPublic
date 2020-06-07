@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/azul"
+    android:background="@drawable/background"
     tools:context=".Comfort">
 
     <ScrollView
@@ -96,7 +96,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@drawable/backboton"
                 android:orientation="horizontal"
@@ -104,28 +104,15 @@
 
                 <Switch
                     android:id="@+id/calorMode"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
                     android:text="@string/calor"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="112dp"
                     tools:layout_editor_absoluteY="128dp" />
-
-                <CheckBox
-                    android:id="@+id/autoCalor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text="@string/auto"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/Verde_seek"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -138,35 +125,22 @@
 
                 <Switch
                     android:id="@+id/frioMode"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
                     android:text="@string/fr_o"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="@color/Frio"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="8dp"
                     tools:layout_editor_absoluteY="80dp" />
 
-                <CheckBox
-                    android:id="@+id/autoFrio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text="@string/auto"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/Verde_seek"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
                 android:background="@drawable/backboton"
                 android:orientation="horizontal"
                 android:padding="8dp">
@@ -175,29 +149,10 @@
                     android:id="@+id/fanMode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
                     android:text="@string/ventilador"
                     android:textColor="@color/md_green_400"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <SeekBar
-                    android:id="@+id/valorConsigna"
-                    style="@style/Widget.AppCompat.SeekBar.Discrete"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/backboton"
-                    android:max="33"
-                    android:progress="10"
-                    android:thumb="@drawable/ledthumb1" />
             </LinearLayout>
 
             <LinearLayout
@@ -237,6 +192,23 @@
                     tools:layout_editor_absoluteX="118dp"
                     tools:layout_editor_absoluteY="304dp" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/valorConsigna"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/backboton"
+                    android:max="33"
+                    android:progress="10"
+                    android:thumb="@drawable/ledthumb1" />
             </LinearLayout>
 
             <LinearLayout

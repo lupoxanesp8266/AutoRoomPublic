@@ -5,19 +5,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.lupoxan.autoroom.controller.ActionListeners;
-import com.lupoxan.autoroom.model.BackGround;
+import com.lupoxan.autoroom.model.AutoRoom;
 
 public class EntryFrame extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private BackGround backGround;
 	private JButton backButton;
 	private JButton otherOn, otherOff;
 
@@ -27,13 +22,7 @@ public class EntryFrame extends JPanel {
 		constraints.weightx = 5;
 		constraints.weighty = 7;
 
-		try {
-			backGround = new BackGround(ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg")));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.setBorder(backGround);
+		this.setBorder(AutoRoom.BACK_GROUND);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.GRAY);
 		this.setBounds(50, 50, 200, 200);

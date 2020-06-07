@@ -5,14 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
-import javax.imageio.ImageIO;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -20,13 +18,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.lupoxan.autoroom.controller.ActionListeners;
-import com.lupoxan.autoroom.model.BackGround;
+import com.lupoxan.autoroom.model.AutoRoom;
 import com.lupoxan.autoroom.model.LocalUser;
 
 /**
@@ -40,33 +39,34 @@ import com.lupoxan.autoroom.model.LocalUser;
 public class MariaDBFrame extends JPanel {
 
 	/**
-	 * 
+	 * Versión de la interfaz gráfica de usuario
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 
-	 */
-	private BackGround backGround;
-	/**
-	 * 
+	 * Botón que vuelve al menú de ajustes
 	 */
 	private JButton backButton;
 	/**
-	 * 
+	 * Modelo para la tabla que se rellena con todos los usuarios registrados
 	 */
 	private DefaultTableModel userLocalModel;
 	/**
-	 * 
+	 * Tabla que se rellena con todos los usuarios registrados
 	 */
 	JTable localUserTable;
 	/**
-	 * 
+	 * Campos para la información del usuario local
 	 */
-	JTextField nameField, modoField, levelField;
+	JTextField nameField, levelField;
 	/**
-	 * 
+	 * Campo de la contraseña del usuario local
 	 */
 	JPasswordField passField;
+	/**
+	 * Label para poner el usuario
+	 */
+	JLabel usuario;
+	JComboBox<String> modoBox;
 
 	public MariaDBFrame(ActionListeners action) {
 		super();
@@ -74,12 +74,7 @@ public class MariaDBFrame extends JPanel {
 		constraints.weightx = 5;
 		constraints.weighty = 7;
 
-		try {
-			backGround = new BackGround(ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		this.setBorder(backGround);
+		this.setBorder(AutoRoom.BACK_GROUND);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.GRAY);
 		this.setBounds(50, 50, 200, 200);
@@ -89,9 +84,22 @@ public class MariaDBFrame extends JPanel {
 		welcome.setIcon(new ImageIcon("/home/pi/autoRoom/img/mariaDB.png"));
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		constraints.gridwidth = 2;
+		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(welcome, constraints);
+
+		usuario = new JLabel();
+		usuario.setOpaque(true);
+		usuario.setBackground(new Color(255, 255, 255));
+		usuario.setForeground(new Color(0, 0, 0));
+		usuario.setHorizontalAlignment(SwingConstants.CENTER);
+		usuario.setFont(new Font(Font.SERIF, Font.BOLD, 18));
+		usuario.setPreferredSize(new Dimension(150, 50));
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		this.add(usuario, constraints);
 
 		// Back to tools button
 		backButton = new JButton("Volver");
@@ -107,7 +115,7 @@ public class MariaDBFrame extends JPanel {
 		constraints.gridheight = 1;
 		this.add(backButton, constraints);
 		// Table
-		String[] columns = { "ID", "Nombre", "Nivel", "Modo", "Contraseña" };
+		String[] columns = { "ID", "Nombre", "Nivel", "Modo" };
 		userLocalModel = new DefaultTableModel(columns, 0) {
 			private static final long serialVersionUID = 1L;
 
@@ -123,11 +131,14 @@ public class MariaDBFrame extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (!localUserTable.getSelectionModel().isSelectionEmpty()) {
-					//String id = localUserTable.getModel().getValueAt(localUserTable.getSelectedRow(), 0).toString();
-					nameField.setText(localUserTable.getModel().getValueAt(localUserTable.getSelectedRow(), 1).toString());
-					passField.setText(localUserTable.getModel().getValueAt(localUserTable.getSelectedRow(), 4).toString());
-					modoField.setText(localUserTable.getModel().getValueAt(localUserTable.getSelectedRow(), 3).toString());
-					levelField.setText(localUserTable.getModel().getValueAt(localUserTable.getSelectedRow(), 2).toString());
+					/*
+					 * nameField.setText(localUserTable.getModel().getValueAt(localUserTable.
+					 * getSelectedRow(), 1).toString());
+					 * modoField.setText(localUserTable.getModel().getValueAt(localUserTable.
+					 * getSelectedRow(), 3).toString());
+					 * levelField.setText(localUserTable.getModel().getValueAt(localUserTable.
+					 * getSelectedRow(), 2).toString());
+					 */
 				}
 			}
 		});
@@ -152,7 +163,7 @@ public class MariaDBFrame extends JPanel {
 		nameField.setBackground(new Color(204, 204, 204));
 		nameField.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		nameField.setPreferredSize(new Dimension(200, 30));
-		nameField.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+		nameField.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
 		constraints.gridx = 5;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
@@ -172,7 +183,7 @@ public class MariaDBFrame extends JPanel {
 		passField.setBackground(new Color(204, 204, 204));
 		passField.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		passField.setPreferredSize(new Dimension(200, 30));
-		passField.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+		passField.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
 		constraints.gridx = 5;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
@@ -187,17 +198,34 @@ public class MariaDBFrame extends JPanel {
 		constraints.gridheight = 1;
 		this.add(modoLabel, constraints);
 		// Name JTextField
-		modoField = new JTextField(15);
-		modoField.setForeground(new Color(0, 0, 0));
-		modoField.setBackground(new Color(204, 204, 204));
-		modoField.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-		modoField.setPreferredSize(new Dimension(200, 30));
-		modoField.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+		levelField = new JTextField(15);
+		levelField.setEnabled(false);
+		levelField.setText("2");
+		levelField.setForeground(new Color(0, 0, 0));
+		levelField.setBackground(new Color(204, 204, 204));
+		levelField.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		levelField.setPreferredSize(new Dimension(200, 30));
+		levelField.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
+		constraints.gridx = 5;
+		constraints.gridy = 4;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		this.add(levelField, constraints);
+		
+		modoBox = new JComboBox<String>();
+		modoBox.addItem("usuario");
+		modoBox.addItem("admin");
+		modoBox.addActionListener(action);
+		modoBox.setActionCommand("changeLevel");
+		modoBox.setForeground(new Color(0, 0, 0));
+		modoBox.setBackground(new Color(204, 204, 204));
+		modoBox.setPreferredSize(new Dimension(200, 30));
+		modoBox.setFont(new Font(Font.SERIF, Font.PLAIN, 14));
 		constraints.gridx = 5;
 		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		this.add(modoField, constraints);
+		this.add(modoBox, constraints);
 		// Label user
 		JLabel levelLabel = new JLabel("Nivel");
 		levelLabel.setForeground(new Color(0, 0, 0));
@@ -206,24 +234,45 @@ public class MariaDBFrame extends JPanel {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(levelLabel, constraints);
-		// Name JTextField
-		levelField = new JTextField(15);
-		levelField.setForeground(new Color(0, 0, 0));
-		levelField.setBackground(new Color(204, 204, 204));
-		levelField.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-		levelField.setPreferredSize(new Dimension(200, 30));
-		levelField.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
-		constraints.gridx = 5;
-		constraints.gridy = 4;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		this.add(levelField, constraints);
-		JButton aceptarButton = new JButton("Aceptar");
+
+		JButton aceptarButton = new JButton("Añadir");
+		aceptarButton.setActionCommand("addlocaluser");
+		aceptarButton.addActionListener(action);
+		aceptarButton.setBackground(new Color(102, 255, 102));
+		aceptarButton.setForeground(new Color(0, 0, 0));
+		aceptarButton.setFont(new Font(Font.SERIF, Font.BOLD, 18));
+		aceptarButton.setPreferredSize(new Dimension(150, 50));
 		constraints.gridx = 5;
 		constraints.gridy = 5;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(aceptarButton, constraints);
+
+		JButton deleteButton = new JButton("Eliminar");
+		deleteButton.setActionCommand("deletelocaluser");
+		deleteButton.addActionListener(action);
+		deleteButton.setBackground(new Color(255, 0, 0));
+		deleteButton.setForeground(new Color(0, 0, 0));
+		deleteButton.setFont(new Font(Font.SERIF, Font.BOLD, 18));
+		deleteButton.setPreferredSize(new Dimension(150, 50));
+		constraints.gridx = 4;
+		constraints.gridy = 5;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		this.add(deleteButton, constraints);
+
+		JButton updateButton = new JButton("Modificar");
+		updateButton.setActionCommand("updatelocaluser");
+		updateButton.addActionListener(action);
+		updateButton.setBackground(new Color(251, 163, 26));
+		updateButton.setForeground(new Color(0, 0, 0));
+		updateButton.setFont(new Font(Font.SERIF, Font.BOLD, 18));
+		updateButton.setPreferredSize(new Dimension(150, 50));
+		constraints.gridx = 4;
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		this.add(updateButton, constraints);
 	}
 
 	public void fillTable(List<LocalUser> userList) {
@@ -236,10 +285,58 @@ public class MariaDBFrame extends JPanel {
 
 		for (int i = 0; i < userList.size(); i++) {
 			LocalUser localUser = userList.get(i);
-			Object[] row = { localUser.getId(), localUser.getName(), localUser.getLevel(), localUser.getModo(),
-					localUser.getPass() };
+			Object[] row = { localUser.getId(), localUser.getName(), localUser.getLevel(), localUser.getModo(), };
 			userLocalModel.addRow(row);
 		}
 
 	}
+
+	public JTextField getNameField() {
+		return nameField;
+	}
+
+	public void setNameField(JTextField nameField) {
+		this.nameField = nameField;
+	}
+
+	public JTextField getLevelField() {
+		return levelField;
+	}
+
+	public void setLevelField(JTextField levelField) {
+		this.levelField = levelField;
+	}
+
+	public JPasswordField getPassField() {
+		return passField;
+	}
+
+	public void setPassField(JPasswordField passField) {
+		this.passField = passField;
+	}
+
+	public JTable getLocalUserTable() {
+		return localUserTable;
+	}
+
+	public void setLocalUserTable(JTable localUserTable) {
+		this.localUserTable = localUserTable;
+	}
+
+	public JLabel getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(JLabel usuario) {
+		this.usuario = usuario;
+	}
+
+	public JComboBox<String> getModoBox() {
+		return modoBox;
+	}
+
+	public void setModoBox(JComboBox<String> modoBox) {
+		this.modoBox = modoBox;
+	}
+
 }

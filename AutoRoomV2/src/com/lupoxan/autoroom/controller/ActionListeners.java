@@ -11,8 +11,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 
 import com.lupoxan.autoroom.model.Constantes;
 import com.lupoxan.autoroom.model.Ficheros;
@@ -22,9 +25,9 @@ import com.lupoxan.autoroom.model.Threading;
 import com.lupoxan.autoroom.model.WiFiDevices;
 import com.lupoxan.autoroom.model.LocalUser;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.UserRecord.UpdateRequest;
+import com.lupoxan.autoroom.model.ApagadoLuces;
 import com.lupoxan.autoroom.model.AutoRoom;
 import com.lupoxan.autoroom.view.MainFrame;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -32,7 +35,7 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 /**
  * @since 29/02/2020
  * @author lupo.xan
- * @version 0.7
+ * @version 0.8
  */
 public class ActionListeners implements ActionListener {
 
@@ -55,11 +58,11 @@ public class ActionListeners implements ActionListener {
 	/**
 	 * 
 	 */
-	private final int OFF = 0, COOL = 1, HEAT = 2;
+	private static final int OFF = 0, COOL = 1, HEAT = 2;
 	/**
 	 * Modo de comfort --> Apagado = 0; Frio = 1; Calor = 2
 	 */
-	private int comfortMode = OFF;
+	public static int comfortMode = OFF;
 	/**
 	 * 
 	 */
@@ -100,10 +103,12 @@ public class ActionListeners implements ActionListener {
 
 				mainframe.getLogin().getNameField().setText("");
 				mainframe.getLogin().getPasswordField().setText("");
+				mainframe.getLocalFrame().getUsuario().setText(user.getName());
 				LOCALBD.addLog("LogIn for " + user.getName(), new Timestamp(new Date().getTime()));
 
 			} else {
 				JOptionPane.showMessageDialog(null, F.prop(Constantes.ERROR));
+				LOCALBD.addError("Inicio de sesión fallido", new Timestamp(new Date().getTime()));
 			}
 
 			break;
@@ -114,27 +119,31 @@ public class ActionListeners implements ActionListener {
 			user = null;
 			break;
 		case "lights":
-			mainframe.getChooseRoom().setVisible(true);
-			mainframe.getMenu().setVisible(false);
-			mainframe.setTitle("Iluminación");
-			break;
-		case "room1":
-			mainframe.getLights().setVisible(true);
-			mainframe.getChooseRoom().setVisible(false);
-			mainframe.setTitle("Habitación 1");
-			break;
-		case "room2":
-			
-			break;
-		case "entry":
-			mainframe.getEntryFrame().setVisible(true);
-			mainframe.getChooseRoom().setVisible(false);
-			mainframe.setTitle("Entrada");
-			break;
-		case "livingRoom":
-			mainframe.getLivingRoomFrame().setVisible(true);
-			mainframe.getChooseRoom().setVisible(false);
-			mainframe.setTitle("Salita");
+			String[] botones = { "Habitación", "Salita", "Exterior", "Terreno" };
+
+			int ventana = JOptionPane.showOptionDialog(null, "¿Qué habitación deseas?", "Elige habitación",
+					JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, botones, botones[0]);
+
+			switch (ventana) {
+			case 0:
+				mainframe.getLights().setVisible(true);
+				mainframe.getMenu().setVisible(false);
+				mainframe.setTitle("Habitación 1");
+				break;
+			case 1:
+				mainframe.getLivingRoomFrame().setVisible(true);
+				mainframe.getMenu().setVisible(false);
+				mainframe.setTitle("Salita");
+				break;
+			case 2:
+				mainframe.getEntryFrame().setVisible(true);
+				mainframe.getMenu().setVisible(false);
+				mainframe.setTitle("Entrada");
+				break;
+			case 3:
+				JOptionPane.showMessageDialog(null, "En construcción");
+				break;
+			}
 			break;
 		case "register":
 			try {
@@ -267,6 +276,7 @@ public class ActionListeners implements ActionListener {
 		case "otherOn":
 			try {
 				new WiFiDevices(InetAddress.getByName(F.prop(Constantes.IP1)), 'H');
+				new ApagadoLuces(F.prop(Constantes.IP1), "iluminacion/luces/exterior");
 				AutoRoom.DATACLOUD.getDB().child("iluminacion").child("luces").child("exterior").setValueAsync(true);
 				mainframe.getEntryFrame().getOtherOn().setBackground(new Color(0, 255, 0));
 				mainframe.getEntryFrame().getOtherOn().setText("Encendido");
@@ -338,6 +348,7 @@ public class ActionListeners implements ActionListener {
 				mainframe.getComfort().getHeatOn().setVisible(false);
 				mainframe.getComfort().getCoolOn().setVisible(false);
 				mainframe.getComfort().getCoolOff().setVisible(false);
+				AutoRoom.DATACLOUD.getDB().child("comfort").child("modo").setValueAsync("Calor");
 				comfortMode = HEAT;
 			}
 			break;
@@ -347,6 +358,7 @@ public class ActionListeners implements ActionListener {
 				mainframe.getComfort().getHeatOn().setVisible(true);
 				mainframe.getComfort().getCoolOn().setVisible(true);
 				mainframe.getComfort().getCoolOff().setVisible(true);
+				AutoRoom.DATACLOUD.getDB().child("comfort").child("modo").setValueAsync("Apagado");
 				comfortMode = OFF;
 			}
 			break;
@@ -356,6 +368,7 @@ public class ActionListeners implements ActionListener {
 				mainframe.getComfort().getHeatOn().setVisible(false);
 				mainframe.getComfort().getCoolOn().setVisible(false);
 				mainframe.getComfort().getHeatOff().setVisible(false);
+				AutoRoom.DATACLOUD.getDB().child("comfort").child("modo").setValueAsync("Frio");
 				comfortMode = COOL;
 			}
 			break;
@@ -365,6 +378,7 @@ public class ActionListeners implements ActionListener {
 				mainframe.getComfort().getHeatOn().setVisible(true);
 				mainframe.getComfort().getCoolOn().setVisible(true);
 				mainframe.getComfort().getHeatOff().setVisible(true);
+				AutoRoom.DATACLOUD.getDB().child("comfort").child("modo").setValueAsync("Apagado");
 				comfortMode = OFF;
 			}
 			break;
@@ -432,33 +446,28 @@ public class ActionListeners implements ActionListener {
 
 			break;
 		case "changeFirebaseUser":
-			String uid = mainframe.getFirebaseFrame().getFirebaseUserTable().getModel()
-					.getValueAt(mainframe.getFirebaseFrame().getFirebaseUserTable().getSelectedRow(), 0).toString();
-
-			UpdateRequest request = new UpdateRequest(uid)
-					.setDisabled(mainframe.getFirebaseFrame().getDisableUser().isSelected());
-
-			UserRecord userRecord;
-
 			try {
+				String uid = mainframe.getFirebaseFrame().getFirebaseUserTable().getModel()
+						.getValueAt(mainframe.getFirebaseFrame().getFirebaseUserTable().getSelectedRow(), 0).toString();
+
+				UpdateRequest request = new UpdateRequest(uid)
+						.setDisabled(mainframe.getFirebaseFrame().getDisableUser().isSelected());
+
+				UserRecord userRecord;
 				userRecord = FirebaseAuth.getInstance().updateUser(request);
-				System.out.println("Successfully updated user: " + userRecord.getUid());
-			} catch (FirebaseAuthException e1) {
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, userRecord.getEmail() + " \nha sido actualizado correctamente");
+				AutoRoom.DATACLOUD.getDB().child("usuarios").child(uid).child("premium")
+						.setValueAsync(mainframe.getFirebaseFrame().getPremiunBox().isSelected());
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, e1.getMessage());
 			}
 
-			AutoRoom.DATACLOUD.getDB().child("usuarios").child(uid).child("premium")
-					.setValueAsync(mainframe.getFirebaseFrame().getPremiunBox().isSelected());
 			break;
 		case "intruderAlarm":
 			if (Firebase.intruderAlarm) {
-				Firebase.intruderAlarm = false;
-				mainframe.getTools().getAlarmButton().setBackground(new Color(255, 0, 0));
-				AutoRoom.DATACLOUD.getDB().child("sistema").child("alarma").child("activada").setValueAsync(true);
-			} else {
-				Firebase.intruderAlarm = true;
-				mainframe.getTools().getAlarmButton().setBackground(new Color(0, 255, 0));
 				AutoRoom.DATACLOUD.getDB().child("sistema").child("alarma").child("activada").setValueAsync(false);
+			} else {
+				AutoRoom.DATACLOUD.getDB().child("sistema").child("alarma").child("activada").setValueAsync(true);
 			}
 			break;
 		case "autoLedsBox":
@@ -549,10 +558,7 @@ public class ActionListeners implements ActionListener {
 			mainframe.getMenu().setVisible(false);
 			break;
 		case "backLights":
-			mainframe.getChooseRoom().setVisible(true);
-			mainframe.getLivingRoomFrame().setVisible(false);
-			mainframe.getLights().setVisible(false);
-			mainframe.getEntryFrame().setVisible(false);
+			back();
 			break;
 		case "back":
 			back();
@@ -568,6 +574,88 @@ public class ActionListeners implements ActionListener {
 
 				System.exit(0);
 
+			}
+			break;
+		case "changeLevel":
+			if (mainframe.getLocalFrame().getModoBox().getSelectedItem().equals("usuario")) {
+				mainframe.getLocalFrame().getLevelField().setText("2");
+			} else {
+				mainframe.getLocalFrame().getLevelField().setText("1");
+			}
+			break;
+		case "addlocaluser":
+			try {
+				boolean flag = false;
+
+				for (LocalUser user : userList) {
+					if (mainframe.getLocalFrame().getNameField().getText().equals(user.getName())) {
+						flag = true;
+						break;
+					}
+				}
+				
+				if (!flag) {
+					if (LOCALBD.addUser(new LocalUser(0, mainframe.getLocalFrame().getNameField().getText(),
+							new String(mainframe.getLocalFrame().getPassField().getPassword()),
+							Integer.parseInt(mainframe.getLocalFrame().getLevelField().getText()),
+							mainframe.getLocalFrame().getModoBox().getSelectedItem().toString()))) {
+						JOptionPane.showMessageDialog(null, "Usuario añadido correctamente");
+
+						mainframe.getLocalFrame().getNameField().setText("");
+						mainframe.getLocalFrame().getPassField().setText("");
+
+						userList.clear();
+						userList = LOCALBD.getAllUsers();
+						mainframe.getLocalFrame().fillTable(userList);
+
+					} else {
+						JOptionPane.showMessageDialog(null, "Error al añadir usuario");
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe");
+				}
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Error");
+			}
+			break;
+		case "deletelocaluser":
+			try {
+				if (LOCALBD.deleteUser(Integer.parseInt(mainframe.getLocalFrame().getLocalUserTable().getModel()
+						.getValueAt(mainframe.getLocalFrame().getLocalUserTable().getSelectedRow(), 0).toString()))) {
+					JOptionPane.showMessageDialog(null, "Usuario borrado correctamente");
+
+					userList.clear();
+					userList = LOCALBD.getAllUsers();
+					mainframe.getLocalFrame().fillTable(userList);
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Error al borrar usuario");
+				}
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Debes selccionar un usuario");
+			}
+			break;
+		case "updatelocaluser":
+			JLabel jUserName = new JLabel("Contraseña actual");
+			JTextField oldPassword = new JPasswordField();
+			JLabel jPassword = new JLabel("Contraseña nueva");
+			JTextField newPassword = new JPasswordField();
+			Object[] objetos = { jUserName, oldPassword, jPassword, newPassword };
+			int result = JOptionPane.showConfirmDialog(null, objetos, "Cambio de contraseña",
+					JOptionPane.OK_CANCEL_OPTION);
+
+			if (result == JOptionPane.OK_OPTION) {
+				if (LOCALBD.password(user, oldPassword.getText())) {
+					user.setPass(newPassword.getText());
+					if (LOCALBD.updateUser(user)) {
+						JOptionPane.showMessageDialog(null, "Contraseña cambiada correctamente");
+					} else {
+						JOptionPane.showMessageDialog(null, "Ha habido un error");
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "La contraseña actual no coincide con la introducida");
+					LOCALBD.addError("Intento de cambio de contraseña", new Timestamp(new Date().getTime()));
+				}
 			}
 			break;
 		}
@@ -599,7 +687,9 @@ public class ActionListeners implements ActionListener {
 		mainframe.getGraphs().setVisible(false);
 		mainframe.getTools().setVisible(false);
 		mainframe.getSensorsFrame().setVisible(false);
-		mainframe.getChooseRoom().setVisible(false);
+		mainframe.getLivingRoomFrame().setVisible(false);
+		mainframe.getLights().setVisible(false);
+		mainframe.getEntryFrame().setVisible(false);
 		mainframe.setTitle("Menú");
 	}
 

@@ -5,10 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -16,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import com.lupoxan.autoroom.controller.ActionListeners;
-import com.lupoxan.autoroom.model.BackGround;
+import com.lupoxan.autoroom.model.AutoRoom;
 
 /**
  * @since 29/02/2020
@@ -26,7 +22,6 @@ import com.lupoxan.autoroom.model.BackGround;
 public class LightsFrame extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private BackGround backGround;
 	private JButton backButton;
 	private JCheckBox autoCama, autoMesa, autoUp;
 	private JLabel autoCamaLabel, autoMesaLabel, autoUpLabel;
@@ -38,13 +33,7 @@ public class LightsFrame extends JPanel {
 		constraints.weightx = 5;
 		constraints.weighty = 7;
 
-		try {
-			backGround = new BackGround(ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg")));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.setBorder(backGround);
+		this.setBorder(AutoRoom.BACK_GROUND);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.GRAY);
 		this.setBounds(50, 50, 200, 200);
@@ -56,7 +45,7 @@ public class LightsFrame extends JPanel {
 		backButton.setPreferredSize(new Dimension(100, 50));
 		backButton.setBackground(new Color(255, 255, 255));
 		backButton.setForeground(new Color(0, 204, 0));
-		constraints.gridx = 3;
+		constraints.gridx = 2;
 		constraints.gridy = 0;
 		constraints.gridwidth = 2;
 		constraints.gridheight = 1;
@@ -113,19 +102,6 @@ public class LightsFrame extends JPanel {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(upLabel, constraints);
-		// Other Label
-		JLabel otherLabel = new JLabel(" Exterior ");
-		otherLabel.setOpaque(true);
-		otherLabel.setBackground(new Color(204, 204, 204));
-		otherLabel.setForeground(new Color(255, 255, 0));
-		otherLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		otherLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		otherLabel.setPreferredSize(new Dimension(100, 50));
-		constraints.gridx = 3;
-		constraints.gridy = 1;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		this.add(otherLabel, constraints);
 		// Mesa JCheckBox
 		autoMesa = new JCheckBox();
 		autoMesa.setActionCommand("autoMesa");

@@ -5,10 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,7 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
 import com.lupoxan.autoroom.controller.ActionListeners;
-import com.lupoxan.autoroom.model.BackGround;
+import com.lupoxan.autoroom.model.AutoRoom;
 
 /**
  * @since 29/02/2020
@@ -30,7 +26,6 @@ import com.lupoxan.autoroom.model.BackGround;
 public class LogInFrame extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private BackGround backGround;
 	private JTextField nameField;
 	private JButton exit, login, register;
 	private JLabel nameLabel, passLabel;
@@ -42,13 +37,8 @@ public class LogInFrame extends JPanel {
 		constraints.weightx = 5;
 		constraints.weighty = 7;
 
-		try {
-			backGround = new BackGround(ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg")));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.setBorder(backGround);
+
+		this.setBorder(AutoRoom.BACK_GROUND);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.GRAY);
 		this.setBounds(50, 50, 200, 200);
@@ -126,7 +116,7 @@ public class LogInFrame extends JPanel {
 		title.setOpaque(true);
 		title.setBackground(new Color(153,153,153));
 		title.setForeground(new Color(255,255,255));
-		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 35));
+		title.setFont(new Font(Font.SERIF, Font.BOLD, 40));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setPreferredSize(new Dimension(500,100));
 		constraints.gridx = 1;

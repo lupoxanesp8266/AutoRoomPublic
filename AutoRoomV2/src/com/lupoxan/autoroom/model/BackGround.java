@@ -4,27 +4,34 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.border.Border;
 
 /**
  * @since 29/02/2020
  * @author lupo.xan
- * @version 0.1
+ * @version 0.2
  */
 public class BackGround implements Border{
 
-	private BufferedImage mImagen = null;
+	private BufferedImage image = null;
 	
-	public BackGround(BufferedImage mImagen) {
+	public BackGround() {
 		super();
-		this.mImagen = mImagen;
+		try {
+			this.image = ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-		if (mImagen != null) {
-            g.drawImage(mImagen, 0, 0, width, height, null);
+		if (image != null) {
+            g.drawImage(image, 0, 0, width, height, null);
         }
 	}
 
@@ -35,7 +42,7 @@ public class BackGround implements Border{
 
 	@Override
 	public boolean isBorderOpaque() {
-		// TODO Auto-generated method stub
+		
 		return true;
 	}
 

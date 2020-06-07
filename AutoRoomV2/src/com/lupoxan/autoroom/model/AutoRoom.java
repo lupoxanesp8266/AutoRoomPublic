@@ -23,32 +23,32 @@ import com.pi4j.wiringpi.SoftPwm;
 /**
  * @since 29/02/2020
  * @author lupo.xan
- * @version 1.2.59
+ * @version 1.2.61
  */
 public class AutoRoom {
 
 	/**
-	 * 
+	 * Objeto MainFrame
 	 */
 	public static MainFrame mainFrame = null;
 	/**
-	 * 
+	 * Objeto Calendar para utilizar el calendario
 	 */
 	private static Calendar cal;// Variable para generar el calendario
 	/**
-	 * 
+	 * Entrada GPIO para el sensor PIR
 	 */
 	public static GpioPinDigitalInput pir;// Entradas digitales de la raspberry
 	/**
-	 * 
+	 * Salidas de la Raspberry
 	 */
 	public static GpioPinDigitalOutput mesa, cama, general, comfort, fan;// Salidas digitales de la raspberry
 	/**
-	 * 
+	 * Controlador GPIO para las entradas y salidas de la Raspberry
 	 */
 	private static GpioController gpio;// Añadir un controlador para el GPIO de la raspberry
 	/**
-	 * 
+	 * Bandera de situación para almacenar estado del sensor PIR
 	 */
 	protected static boolean flag = false;
 	/**
@@ -93,6 +93,10 @@ public class AutoRoom {
 	 * Objeto del tipo Ficheros para el acceso al properties y al csv
 	 */
 	public static final Ficheros F = new Ficheros();
+	/**
+	 * Variable para que todas las pantallas tengan la  misma imagen de fondo
+	 */
+	public static final BackGround BACK_GROUND = new BackGround();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -134,12 +138,13 @@ public class AutoRoom {
 
 		pir = gpio.provisionDigitalInputPin(Constantes.MOV, Constantes.RUP);// Sensor de movimiento
 
+		//Leds ambientales
 		rojo = Constantes.ORED;
 		verde = Constantes.OGREEN;
 		whiteL = Constantes.OWHITEL;
 		whiteR = Constantes.OWHITER;
 		ledsCama = Constantes.OWHITEC;
-
+		//Salidas PWM para los leds ambientales
 		SoftPwm.softPwmCreate(rojo, Constantes.CERO, Constantes.HUNDRED);
 		SoftPwm.softPwmCreate(verde, Constantes.CERO, Constantes.HUNDRED);
 		SoftPwm.softPwmCreate(whiteL, Constantes.CERO, Constantes.HUNDRED);
@@ -284,39 +289,41 @@ public class AutoRoom {
 			@Override
 			public void run() {
 				String[] fecha = mainFrame.getMenu().getHourLabel().getText().split(":");
+				
 				if (fecha[1].equals("30") || fecha[1].equals("00")) {
 					if (logSensors) {
-						AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS))
+						String sensores = AutoRoom.F.prop(Constantes.SENSORS);
+						AutoRoom.DATACLOUD.getDB().child(sensores)
 								.child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/"
 										+ AutoRoom.mainFrame.getMenu().getHourLabel().getText())
 								.child("Temp_Ext")
 								.setValueAsync(AutoRoom.mainFrame.getMenu().getTempExtValue().getText());
-						AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS))
+						AutoRoom.DATACLOUD.getDB().child(sensores)
 								.child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/"
 										+ AutoRoom.mainFrame.getMenu().getHourLabel().getText())
 								.child("Temp_Int")
 								.setValueAsync(AutoRoom.mainFrame.getMenu().getTempIntValue().getText());
-						AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS))
+						AutoRoom.DATACLOUD.getDB().child(sensores)
 								.child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/"
 										+ AutoRoom.mainFrame.getMenu().getHourLabel().getText())
 								.child("Movimiento").setValueAsync(AutoRoom.pir.getState());
 
-						AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child("exterior")
+						AutoRoom.DATACLOUD.getDB().child(sensores).child("exterior")
 								.child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/"
 										+ AutoRoom.mainFrame.getMenu().getHourLabel().getText())
 								.child("status")
 								.setValueAsync(AutoRoom.mainFrame.getSensorsFrame().getStatusDHTValue().getText());
-						AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child("exterior")
+						AutoRoom.DATACLOUD.getDB().child(sensores).child("exterior")
 								.child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/"
 										+ AutoRoom.mainFrame.getMenu().getHourLabel().getText())
 								.child("temperatura")
 								.setValueAsync(AutoRoom.mainFrame.getSensorsFrame().getTempDHTValue().getText());
-						AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child("exterior")
+						AutoRoom.DATACLOUD.getDB().child(sensores).child("exterior")
 								.child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/"
 										+ AutoRoom.mainFrame.getMenu().getHourLabel().getText())
 								.child("humedad")
 								.setValueAsync(AutoRoom.mainFrame.getSensorsFrame().getHumDHTValue().getText());
-						AutoRoom.DATACLOUD.getDB().child(AutoRoom.F.prop(Constantes.SENSORS)).child("exterior")
+						AutoRoom.DATACLOUD.getDB().child(sensores).child("exterior")
 								.child(AutoRoom.mainFrame.getMenu().getDateLabel().getText() + "/"
 										+ AutoRoom.mainFrame.getMenu().getHourLabel().getText())
 								.child("sensTermica")

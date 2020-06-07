@@ -5,10 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,7 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
 import com.lupoxan.autoroom.controller.ActionListeners;
-import com.lupoxan.autoroom.model.BackGround;
+import com.lupoxan.autoroom.model.AutoRoom;
 
 /**
  * @since 29/02/2020
@@ -28,10 +24,10 @@ import com.lupoxan.autoroom.model.BackGround;
 public class MenuFrame extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private BackGround backGround;
 	private JButton exit, lights, comfort, leds, graphs, tools;
 	private JLabel dateLabel, hourLabel, movementValue, tempIntValue, tempExtValue;
 	private JButton sensors;
+	private int height = 65, width = 200;
 	
 	public MenuFrame(ActionListeners actions) {
 		super();
@@ -39,14 +35,8 @@ public class MenuFrame extends JPanel {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 5;
 		constraints.weighty = 7;
-
-		try {
-			backGround = new BackGround(ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg")));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.setBorder(backGround);
+	
+		this.setBorder(AutoRoom.BACK_GROUND);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.GRAY);
 		this.setBounds(50, 50, 200, 200);
@@ -54,7 +44,7 @@ public class MenuFrame extends JPanel {
 		exit = new JButton("Log Out");
 		exit.setActionCommand("logOut");
 		exit.addActionListener(actions);
-		exit.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+		exit.setFont(new Font(Font.SERIF, Font.BOLD, 12));
 		exit.setPreferredSize(new Dimension(100, 50));
 		exit.setBackground(new Color(255, 255, 255));
 		exit.setForeground(new Color(0, 204, 0));
@@ -68,7 +58,7 @@ public class MenuFrame extends JPanel {
 		lights.setActionCommand("lights");
 		lights.addActionListener(actions);
 		lights.setFont(new Font(Font.SERIF, Font.BOLD, 25));
-		lights.setPreferredSize(new Dimension(200, 75));
+		lights.setPreferredSize(new Dimension(width, height));
 		lights.setBackground(new Color(102, 255, 102));
 		constraints.gridx = 2;
 		constraints.gridy = 0;
@@ -80,7 +70,7 @@ public class MenuFrame extends JPanel {
 		comfort.setActionCommand("comfort");
 		comfort.addActionListener(actions);
 		comfort.setFont(new Font(Font.SERIF, Font.BOLD, 25));
-		comfort.setPreferredSize(new Dimension(200, 75));
+		comfort.setPreferredSize(new Dimension(width, height));
 		comfort.setBackground(new Color(102, 255, 102));
 		constraints.gridx = 2;
 		constraints.gridy = 1;
@@ -92,7 +82,7 @@ public class MenuFrame extends JPanel {
 		leds.setActionCommand("leds");
 		leds.addActionListener(actions);
 		leds.setFont(new Font(Font.SERIF, Font.BOLD, 25));
-		leds.setPreferredSize(new Dimension(200, 75));
+		leds.setPreferredSize(new Dimension(width, height));
 		leds.setBackground(new Color(102, 255, 102));
 		constraints.gridx = 2;
 		constraints.gridy = 2;
@@ -104,7 +94,7 @@ public class MenuFrame extends JPanel {
 		graphs.setActionCommand("graphs");
 		graphs.addActionListener(actions);
 		graphs.setFont(new Font(Font.SERIF, Font.BOLD, 25));
-		graphs.setPreferredSize(new Dimension(200, 75));
+		graphs.setPreferredSize(new Dimension(width, height));
 		graphs.setBackground(new Color(102, 255, 102));
 		constraints.gridx = 2;
 		constraints.gridy = 3;
@@ -116,7 +106,7 @@ public class MenuFrame extends JPanel {
 		tools.setActionCommand("tools");
 		tools.addActionListener(actions);
 		tools.setFont(new Font(Font.SERIF, Font.BOLD, 25));
-		tools.setPreferredSize(new Dimension(200, 75));
+		tools.setPreferredSize(new Dimension(width, height));
 		tools.setBackground(new Color(102, 255, 102));
 		constraints.gridx = 2;
 		constraints.gridy = 4;
@@ -181,7 +171,7 @@ public class MenuFrame extends JPanel {
 		tempExtLabel.setForeground(new Color(255, 255, 255));
 		tempExtLabel.setFont(new Font(Font.SERIF, Font.BOLD, 17));
 		constraints.gridx = 4;
-		constraints.gridy = 2;
+		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(tempExtLabel, constraints);
@@ -190,7 +180,7 @@ public class MenuFrame extends JPanel {
 		movementLabel.setForeground(new Color(255, 255, 255));
 		movementLabel.setFont(new Font(Font.SERIF, Font.BOLD, 17));
 		constraints.gridx = 4;
-		constraints.gridy = 3;
+		constraints.gridy = 5;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(movementLabel, constraints);
@@ -219,7 +209,7 @@ public class MenuFrame extends JPanel {
 		tempExtValue.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		tempExtValue.setPreferredSize(new Dimension(100,50));
 		constraints.gridx = 5;
-		constraints.gridy = 2;
+		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(tempExtValue, constraints);
@@ -233,24 +223,20 @@ public class MenuFrame extends JPanel {
 		movementValue.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 		movementValue.setPreferredSize(new Dimension(100,50));
 		constraints.gridx = 5;
-		constraints.gridy = 3;
+		constraints.gridy = 5;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(movementValue, constraints);
 		// CopyRight Label
 		sensors = new JButton("Sensores");
-		sensors.setOpaque(true);
 		sensors.addActionListener(actions);
 		sensors.setActionCommand("sensores");
-		sensors.setBackground(new Color(51, 255, 51));
-		sensors.setForeground(new Color(255, 0, 0));
-		sensors.setFont(new Font(Font.SERIF, Font.BOLD, 18));
-		sensors.setHorizontalAlignment(SwingConstants.CENTER);
-		sensors.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		sensors.setPreferredSize(new Dimension(200,50));
-		constraints.gridx = 4;
-		constraints.gridy = 4;
-		constraints.gridwidth = 2;
+		sensors.setFont(new Font(Font.SERIF, Font.BOLD, 25));
+		sensors.setPreferredSize(new Dimension(width, height));
+		sensors.setBackground(new Color(102, 255, 102));
+		constraints.gridx = 2;
+		constraints.gridy = 5;
+		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		this.add(sensors, constraints);
 	}

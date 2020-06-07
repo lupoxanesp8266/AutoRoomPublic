@@ -5,11 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -23,7 +19,6 @@ import javax.swing.event.ChangeListener;
 import com.lupoxan.autoroom.controller.ActionListeners;
 import com.lupoxan.autoroom.controller.ChangeStateListeners;
 import com.lupoxan.autoroom.model.AutoRoom;
-import com.lupoxan.autoroom.model.BackGround;
 import com.lupoxan.autoroom.model.Constantes;
 import com.pi4j.wiringpi.SoftPwm;
 
@@ -36,7 +31,6 @@ public class LedsFrame extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints constraints;
-	private BackGround backGround;
 	private JButton backButton;
 
 	private JSlider verdeSlider = new JSlider();
@@ -63,12 +57,7 @@ public class LedsFrame extends JPanel {
 		constraints.weightx = 5;
 		constraints.weighty = 5;
 
-		try {
-			backGround = new BackGround(ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		this.setBorder(backGround);
+		this.setBorder(AutoRoom.BACK_GROUND);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.GRAY);
 		this.setBounds(50, 50, 200, 200);

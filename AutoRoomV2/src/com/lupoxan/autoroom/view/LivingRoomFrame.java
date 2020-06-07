@@ -5,20 +5,20 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.lupoxan.autoroom.controller.ActionListeners;
-import com.lupoxan.autoroom.model.BackGround;
-
+import com.lupoxan.autoroom.model.AutoRoom;
+/**
+ * @since 10/05/2020
+ * @author lupo.xan
+ * @version 0.3
+ *
+ */
 public class LivingRoomFrame extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	private BackGround backGround;
 	private JButton backButton;
 	private JButton salitaOn, salitaOff;
 
@@ -27,15 +27,9 @@ public class LivingRoomFrame extends JPanel {
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.weightx = 5;
 		constraints.weighty = 7;
-
-		/*try {
-			backGround = new BackGround(ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-		//this.setBorder(backGround);
+		this.setBorder(AutoRoom.BACK_GROUND);
 		this.setLayout(new GridBagLayout());
-		this.setBackground(Color.GRAY);
+		this.setBackground(new Color(0,0,180));
 		this.setBounds(50, 50, 200, 200);
 		// Back to menu button
 		backButton = new JButton("Menú");

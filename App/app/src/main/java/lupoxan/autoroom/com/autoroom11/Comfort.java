@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -18,14 +17,13 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * @author lupo.xan
  * @since 01/02/2019
- * @version 0.1.8
+ * @version 0.2.0
  */
 public class Comfort extends AppCompatActivity {
 
     TextView tempInt, tempExt, modoAire, consignaL;
     Switch frio, calor, fan;
     SeekBar valorConsigna;
-    CheckBox autofrio, autocalor;
 
     private static final int MIN = 10;
     private MyFirebase firebase;
@@ -47,9 +45,6 @@ public class Comfort extends AppCompatActivity {
         calor = findViewById(R.id.calorMode);
         fan = findViewById(R.id.fanMode);
 
-        autocalor = findViewById(R.id.autoCalor);
-        autofrio = findViewById(R.id.autoFrio);
-
         firebase = new MyFirebase();
 
         String tempI = getIntent().getExtras().getString("tempInt");
@@ -58,30 +53,6 @@ public class Comfort extends AppCompatActivity {
         tempInt.setText(tempI);
         tempExt.setText(tempE);
 
-        firebase.getDb().child("comfort").child("auto").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                switch (dataSnapshot.getValue().toString()){
-                    case "Frio":
-                        autofrio.setChecked(true);
-                        autocalor.setChecked(false);
-                        break;
-                    case "Calor":
-                        autofrio.setChecked(false);
-                        autocalor.setChecked(true);
-                        break;
-                    case "Off":
-                        autocalor.setChecked(false);
-                        autofrio.setChecked(false);
-                        break;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         firebase.getDb().child("comfort").child("modo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -175,32 +146,6 @@ public class Comfort extends AppCompatActivity {
                 }else{
                     firebase.getDb().child("comfort").child("modo").setValue("Apagado");
                     frio.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        autofrio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    firebase.getDb().child("comfort").child("auto").setValue("Frio");
-                    autocalor.setVisibility(View.INVISIBLE);
-                }else{
-                    firebase.getDb().child("comfort").child("auto").setValue("Off");
-                    autocalor.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        autocalor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    firebase.getDb().child("comfort").child("auto").setValue("Calor");
-                    autofrio.setVisibility(View.INVISIBLE);
-                }else{
-                    firebase.getDb().child("comfort").child("auto").setValue("Off");
-                    autofrio.setVisibility(View.VISIBLE);
                 }
             }
         });

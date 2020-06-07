@@ -62,8 +62,7 @@ public class MariaDB {
 			JOptionPane.showMessageDialog(null, "Escribe al menos un usuario y una contraseña");
 		} else {
 			try {
-				PreparedStatement statement = MariaDB.getDbConnection().prepareStatement(
-						"INSERT INTO users (nombre, contrasenia, level, modo) VALUES (?, md5(?), ?, ?)");
+				PreparedStatement statement = MariaDB.getDbConnection().prepareStatement("INSERT INTO users (nombre, contrasenia, level, modo) VALUES (?, md5(?), ?, ?)");
 				statement.setString(1, user.getName());
 				statement.setString(2, user.getPass());
 				statement.setInt(3, user.getLevel());
@@ -81,15 +80,49 @@ public class MariaDB {
 		return resultado;
 	}
 
-	public boolean deleteUser(LocalUser user) {
-		return false;
+	public boolean deleteUser(int id) {
+		boolean resultado = false;
+		try {
+			PreparedStatement statement = MariaDB.dbConnection.prepareStatement("delete from users where id = ?");
+			statement.setInt(1, id);
+
+			int result = statement.executeUpdate();
+
+			if (result == 1) {
+				resultado = true;
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return resultado;
+	}
+	
+	public boolean password(LocalUser user, String password) {
+		boolean resultado = false;
+		
+		try {
+			PreparedStatement statement = dbConnection.prepareStatement("select contrasenia from users WHERE id = ? and contrasenia = md5(?)");
+
+			statement.setInt(1, user.getId());
+			statement.setString(2, password);
+
+			ResultSet result = statement.executeQuery();
+
+			if (result.next()) {
+				resultado = true;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return resultado;
 	}
 
 	public boolean updateUser(LocalUser user) {
 		boolean resultado = false;
 		try {
-			PreparedStatement statement = MariaDB.dbConnection.prepareStatement(
-					"UPDATE users set nombre = ?, contrasenia = md5(?), level = ?, modo = ? where id = ?");
+			PreparedStatement statement = MariaDB.dbConnection.prepareStatement("UPDATE users set nombre = ?, contrasenia = md5(?), level = ?, modo = ? where id = ?");
 			statement.setString(1, user.getName());
 			statement.setString(2, user.getPass());
 			statement.setInt(3, user.getLevel());
@@ -180,7 +213,6 @@ public class MariaDB {
 				userList.add(new LocalUser(resultSet.getInt(1),resultSet.getString(2),resultSet.getString(3),resultSet.getInt(4),resultSet.getString(5)));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

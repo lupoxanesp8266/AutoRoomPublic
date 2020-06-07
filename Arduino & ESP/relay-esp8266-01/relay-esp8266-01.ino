@@ -1,7 +1,12 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "********";
-const char* password =  "**********";
+#ifndef STASSID
+#define STASSID "********"
+#define STAPSK  "********"
+#endif
+
+const char* ssid = "FTE-8D74";
+const char* password =  "RShLoTgE";
 
 String estado="OFF"; 
 

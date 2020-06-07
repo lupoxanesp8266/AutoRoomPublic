@@ -5,12 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -26,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.lupoxan.autoroom.controller.ActionListeners;
 import com.lupoxan.autoroom.controller.ChangeStateListeners;
-import com.lupoxan.autoroom.model.BackGround;
+import com.lupoxan.autoroom.model.AutoRoom;
 import com.lupoxan.autoroom.model.FirebaseUser;
 
 /**
@@ -42,10 +39,6 @@ public class FirebaseFrame extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	/**
-	 * 
-	 */
-	private BackGround backGround;
 	/**
 	 * 
 	 */
@@ -69,12 +62,8 @@ public class FirebaseFrame extends JPanel {
 		constraints.weightx = 5;
 		constraints.weighty = 7;
 
-		try {
-			backGround = new BackGround(ImageIO.read(new File("/home/pi/autoRoom/img/blue.jpg")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		this.setBorder(backGround);
+
+		this.setBorder(AutoRoom.BACK_GROUND);
 		this.setLayout(new GridBagLayout());
 		this.setBackground(Color.GRAY);
 		this.setBounds(50, 50, 200, 200);
@@ -128,7 +117,7 @@ public class FirebaseFrame extends JPanel {
 		premiunBox = new JCheckBox("Premium");
 		premiunBox.setOpaque(true);
 		premiunBox.setBackground(new Color(185, 61, 0));
-		premiunBox.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+		premiunBox.setFont(new Font(Font.SERIF, Font.BOLD, 15));
 		premiunBox.setHorizontalAlignment(SwingConstants.CENTER);
 		premiunBox.setPreferredSize(new Dimension(200, 50));
 		premiunBox.addChangeListener(new ChangeStateListeners("premiumBox"));
@@ -141,7 +130,7 @@ public class FirebaseFrame extends JPanel {
 		disableUser = new JCheckBox("Enable / Disable");
 		disableUser.setOpaque(true);
 		disableUser.setBackground(new Color(255, 0, 0));
-		disableUser.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+		disableUser.setFont(new Font(Font.SERIF, Font.BOLD, 15));
 		disableUser.setHorizontalAlignment(SwingConstants.CENTER);
 		disableUser.setPreferredSize(new Dimension(200, 50));
 		disableUser.addChangeListener(new ChangeStateListeners("disableBox"));
@@ -151,7 +140,7 @@ public class FirebaseFrame extends JPanel {
 		constraints.gridheight = 1;
 		this.add(disableUser, constraints);
 		// Aceptar button
-		okButton = new JButton("Aceptar");
+		okButton = new JButton("Modificar");
 		okButton.setActionCommand("changeFirebaseUser");
 		okButton.addActionListener(action);
 		okButton.setFont(new Font(Font.SERIF, Font.BOLD, 12));

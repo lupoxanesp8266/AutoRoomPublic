@@ -15,7 +15,7 @@ import com.pi4j.io.gpio.RaspiPin;
  * Clase para recopilar todas las constantes que hay
  * @author lupo.xan
  * @since 24/09/2019
- * @version 0.9
+ * @version 1.5
  */
 public class Constantes {
     public final static String TITULO = "appName";

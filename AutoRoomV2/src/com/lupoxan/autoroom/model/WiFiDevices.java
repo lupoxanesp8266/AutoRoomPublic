@@ -15,7 +15,7 @@ import java.net.Socket;
  * de él.
  * @since 05/04/2020
  * @author lupo.xan
- * @version 0.4
+ * @version 0.5
  */
 public class WiFiDevices extends Thread{
 

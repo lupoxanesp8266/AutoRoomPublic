@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:circular="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backleds"
@@ -68,16 +69,16 @@
                     android:typeface="serif" />
             </LinearLayout>
 
-            <SeekBar
+            <me.angrybyte.circularslider.CircularSlider
                 android:id="@+id/rojosSeek"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:background="@drawable/backboton"
-                android:max="100"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:thumb="@drawable/ledthumb1" />
+                android:layout_height="200dp"
+                android:padding="30dp"
+                circular:angle="3.14"
+                circular:border_color="#FF3030"
+                circular:border_thickness="5dp"
+                circular:thumb_color="#FF3030"
+                circular:thumb_size="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -404,7 +405,7 @@
                 android:progress="20"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:thumb="@drawable/ledthumb1" />
+                android:thumb="@drawable/ledthumb1" tools:targetApi="o" />
 
         </LinearLayout>
     </ScrollView>

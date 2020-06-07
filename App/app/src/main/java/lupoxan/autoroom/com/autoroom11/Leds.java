@@ -3,6 +3,8 @@ package lupoxan.autoroom.com.autoroom11;
 import androidx.annotation.NonNull;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import me.angrybyte.circularslider.CircularSlider;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +31,9 @@ public class Leds extends AppCompatActivity {
 
     TextView rojoPor, verdePor, blancoLPor, blancoRPor, blancoCPor, fadingPor, blinkerPor;
 
-    SeekBar rojos, verdes, blancoL, blancoR, blancoC, fading, blinker;
+    SeekBar verdes, blancoL, blancoR, blancoC, fading, blinker;
+
+    CircularSlider rojos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,7 @@ public class Leds extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 rojoPor.setText(dataSnapshot.getValue().toString() + " %");
-                rojos.setProgress(Integer.parseInt(dataSnapshot.getValue().toString()));
+                //rojos.setProgress(Integer.parseInt(dataSnapshot.getValue().toString()));
             }
 
             @Override
@@ -215,22 +219,12 @@ public class Leds extends AppCompatActivity {
             }
         });//*/
 
-        rojos.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        rojos.setOnSliderMovedListener(new CircularSlider.OnSliderMovedListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+            public void onSliderMoved(double pos) {
+                Toast.makeText(getApplicationContext(),"Posicion: " + pos, Toast.LENGTH_SHORT).show();
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                MainActivity.firebase.getDb().child("leds").child("rojos").setValue(seekBar.getProgress());
-            }
-        });//*/
+        });
         verdes.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -345,6 +339,7 @@ public class Leds extends AppCompatActivity {
         blinkerPor = findViewById(R.id.blinkTimePor);
 
         rojos = findViewById(R.id.rojosSeek);
+
         verdes = findViewById(R.id.verdesSeek);
         blancoL = findViewById(R.id.blancoLSeek);
         blancoR = findViewById(R.id.blancoRSeek);

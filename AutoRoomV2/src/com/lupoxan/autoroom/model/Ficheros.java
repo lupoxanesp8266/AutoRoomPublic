@@ -23,7 +23,7 @@ import java.util.Properties;
 public class Ficheros {
 
     /**
-     * M√©todo para leer el archivo properties
+     * MÈtodo para leer el archivo properties
      * @param property Clave del properties
      * @return Valor de la clave
      */
@@ -54,7 +54,7 @@ public class Ficheros {
     }
 
     /**
-     * M√©todo para escribir un fichero dada una ruta y un String
+     * MÈtodo para escribir un fichero dada una ruta y un String
      * @param ruta Ruta para guardar el fichero de texto
      * @param msj Mensaje que queremos escribir en el fichero
      */
@@ -72,7 +72,7 @@ public class Ficheros {
     }
 
     /**
-     * M√©todo para leer de un fichero de texto
+     * MÈtodo para leer de un fichero de texto
      * @param ruta Ruta donde est√© el fichero
      * @return Contenido del fichero
      */

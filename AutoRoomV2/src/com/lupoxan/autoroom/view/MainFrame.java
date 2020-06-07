@@ -33,7 +33,6 @@ public class MainFrame extends JFrame {
 	private FirebaseFrame firebaseFrame;
 	private MariaDBFrame localFrame;
 	private SensorsFrame sensorsFrame;
-	private ChooseRoom chooseRoom;
 	private EntryFrame entryFrame;
 	private LivingRoomFrame livingRoomFrame;
 	private JPanel container;
@@ -94,9 +93,6 @@ public class MainFrame extends JFrame {
 
 		sensorsFrame = new SensorsFrame(action);
 		container.add(sensorsFrame);
-		
-		chooseRoom = new ChooseRoom(action);
-		container.add(chooseRoom);
 		
 		entryFrame = new EntryFrame(action);
 		container.add(entryFrame);
@@ -186,14 +182,6 @@ public class MainFrame extends JFrame {
 
 	public void setSensorsFrame(SensorsFrame sensorsFrame) {
 		this.sensorsFrame = sensorsFrame;
-	}
-
-	public ChooseRoom getChooseRoom() {
-		return chooseRoom;
-	}
-
-	public void setChooseRoom(ChooseRoom chooseRoom) {
-		this.chooseRoom = chooseRoom;
 	}
 
 	public EntryFrame getEntryFrame() {
