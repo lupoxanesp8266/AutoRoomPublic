@@ -5,8 +5,8 @@
 #define STAPSK  "********"
 #endif
 
-const char* ssid = "FTE-8D74";
-const char* password =  "RShLoTgE";
+const char* ssid = "*********";
+const char* password =  "*********";
 
 String estado="OFF"; 
 
